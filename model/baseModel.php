@@ -37,7 +37,7 @@
             $tableName = static::$tableName;
 
             $result = $this->db->runQuery(
-                "SELECT * FROM $tableName WHERE $whereClause"
+                "SELECT * FROM $tableName WHERE $whereClause;"
             );
 
             if(count($result) == 0) {
@@ -141,7 +141,10 @@
                 throw new AttributesDoNotMatch();
             $result = "";
             $len = count($args);
+            $cntr = 0;
             for($i = 0 ; $i < $len ; $i ++) {
+                if($cntr > 0) $result = $result . " AND ";
+                $cntr ++;
                 $result = $result . static::$primaryKey[$i] .
                           " = '" . $args[$i] . "' ";
             }
