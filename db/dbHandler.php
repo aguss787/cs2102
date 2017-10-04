@@ -28,9 +28,9 @@
                 array_push($result, $data);
             }
 
-            pg_free_result($qu);
+            pg_free_result($queryResult);
 
-            return $queryResult;
+            return $result;
         }
     }
 ?>
