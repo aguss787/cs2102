@@ -14,4 +14,8 @@
 
         $pet->save();
     }
+
+    function getPetsWithOwner($owner) {
+        return Pet::findAll("owner = '$owner'");
+    }
 ?>

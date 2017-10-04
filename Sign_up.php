@@ -1,4 +1,24 @@
 <!DOCTYPE html>
+
+<?php
+    session_start();
+    $loged_in = isset($_SESSION['email']);
+    if($loged_in) {
+        header('Location:./index.php');
+    }
+?>
+
+<?php
+    include_once __DIR__ . '/controller/userController.php';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        signUp($_POST['email'], $_POST['password'], $_POST['firstname'], 
+               $_POST['lastname'], $_POST['address'], $_POST['contact'], false);
+      echo "YEY ITS OK!";
+    } 
+
+?>
+
 <html>
   <head>
       <title>Sign Up</title>
