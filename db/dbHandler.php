@@ -1,19 +1,36 @@
 <?php
-	class DbHandler {
-		private $db;
-		// $result = pg_query($db, "SELECT * FROM book where book_id = '$_POST[bookid]'");
-		// $row = pg_fetch_assoc($result);
-		function __construct() {
-			$db = pg_connect(
-				"host=localhost" .
-				"port=5432" .
-				"dbname=public" .
-				"user=postgres" .
-				"password=projectgroup3"
-			);
-			echo "ASD";	
-		}
-	}
+    class QueryError extends Exception {
 
-	$test = new DbHandler();
+    }
+
+    class DbHandler {
+        private $dbConnection;
+        function __construct() {
+            $this->dbConnection = pg_connect(
+                "host=localhost " .
+                "port=5432 " .
+                "dbname=pet_taker " .
+                "user=postgres " .
+                "password=projectgroup3"
+            );
+        }
+
+        function runQuery($query) {
+            $queryResult = pg_query($this->dbConnection, $query);
+
+            if (!$queryResult) {
+                throw new QueryError();
+            }
+
+            $result = array();
+
+            while ($data = pg_fetch_object($queryResult)) {
+                array_push($result, $data);
+            }
+
+            pg_free_result($qu);
+
+            return $queryResult;
+        }
+    }
 ?>
