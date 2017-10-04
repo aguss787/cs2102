@@ -19,6 +19,10 @@
                 $this->db = $db;
             }
             $this->rawData = $rawData;
+
+            foreach(static::$fieldName as $fieldName) {
+                $this->value[$fieldName] = NULL;
+            }
         }
 
         public static function withProperties(...$args) {
@@ -105,14 +109,19 @@
             }
         }
 
+        private function pad($val) {
+            if(is_null($val)) return "NULL";
+            return "'" . $val . "'";
+        }
+
         private function getUpdateSetClause() {
             $result = "";
             $len = 0;
             foreach(static::$fieldName as $fieldName) {
                 if($len > 0) $result = $result . ", ";
                 $len ++;
-                $result = $result . $fieldName . " = '" . 
-                          $this->$fieldName . "'";
+                $result = $result . $fieldName . " = " . 
+                          $this->pad($this->$fieldName);
             }
             return $result;
         }
@@ -131,7 +140,7 @@
             foreach(static::$fieldName as $fieldName) {
                 if($len > 0) $result = $result . ", ";
                 $len ++;
-                $result = $result . "'" . $this->$fieldName . "'";
+                $result = $result . $this->pad($this->$fieldName);
             }
             return $result;
         }

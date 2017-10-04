@@ -1,5 +1,6 @@
 <?php
     include_once __DIR__ . "/../model/user.php";
+    include_once __DIR__ . "/takerController.php";
 
     function getUser($email) {
         return User::loadFromDb($email);
@@ -20,5 +21,9 @@
         $curUser = User::withProperties($email, $password);
         $user = getUser($email);
         return $curUser->password == $user->password;
+    }
+
+    function upgradeToTaker($user) {
+        addTaker($user->email);
     }
 ?>

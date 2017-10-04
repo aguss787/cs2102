@@ -3,7 +3,7 @@
     include_once __DIR__ . '/../db/dbhandler.php';
     include_once __DIR__ . '/exceptions.php';
 
-    class Pet extends BaseModel {
+    class Taker extends BaseModel {
         static protected $tableName = "taker";
         static protected $fieldName = ["email", "preference", "status", 
                                        "one_star", "two_star", "three_star",
