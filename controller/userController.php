@@ -1,5 +1,5 @@
 <?php
-    include __DIR__ . "/../model/user.php";
+    include_once __DIR__ . "/../model/user.php";
 
     function getUser($email) {
         return User::loadFromDb($email);
@@ -19,6 +19,6 @@
     function signIn($email, $password) {
         $curUser = User::withProperties($email, $password);
         $user = getUser($email);
-        return $curUser->getPassword() == $user->getPassword();
+        return $curUser->password == $user->password;
     }
 ?>

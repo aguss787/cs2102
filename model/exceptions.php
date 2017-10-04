@@ -1,3 +1,5 @@
 <?php 
-    class ElementNotFound extends Exception {}
+    class RecordNotFound extends Exception {}
+    class AttributeDoesNotExist extends Exception {}
+    class AttributesDoNotMatch extends Exception {}
 ?>
