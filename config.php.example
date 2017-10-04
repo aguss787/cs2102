@@ -1,0 +1,9 @@
+<?php
+    class DbConfig {
+        public static $host = "";
+        public static $port = "";
+        public static $db = "";
+        public static $user = "";
+        public static $pass = "";
+    }
+?>
