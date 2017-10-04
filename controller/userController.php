@@ -23,7 +23,7 @@
         return $curUser->password == $user->password;
     }
 
-    function upgradeToTaker($user) {
-        addTaker($user->email);
+    function upgradeToTaker($email) {
+        addTaker($email);
     }
 ?>

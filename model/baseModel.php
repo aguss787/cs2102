@@ -49,6 +49,10 @@
             }
 
             $rawData = $result[0];
+            $this->loadFromRawData($rawData);
+        }
+
+        public function loadFromRawData($rawData) {
             $this->rawData = $rawData;
 
             $len = count(static::$fieldName);
@@ -107,6 +111,23 @@
                     ");"
                 );
             }
+        }
+
+        public static function findAll($whereClause) {
+            $tableName = static::$tableName;
+            $db = new DbHandler();
+            $result = $db->runQuery(
+                "SELECT * FROM $tableName WHERE $whereClause;"
+            );
+
+            echo count($result);
+            $ret = [];
+            foreach ($result as $rawData) {
+                $cur = new static();
+                $cur->loadFromRawData($rawData);
+                array_push($ret, $cur);
+            }
+            return $ret;
         }
 
         private function pad($val) {

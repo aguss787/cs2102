@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+
+<?php
+    session_start();
+    $loged_in = isset($_SESSION['email']);
+    $email = "";
+    if(!$loged_in) {
+        header('Location:./index.php');
+    }
+    $email = $_SESSION['email'];
+?>
+
 <html>
   <head>
     <title>Choose pet</title>
@@ -12,10 +23,13 @@
       <form action="choose_taker.php" method="POST">
         <select name="p_name">
           <?php
-            $pets = server.getPets();
-            for ($i = 0; $i <= count($pets); $i++) {
-              $pet = $pets[$i]
-              echo "<option value='" . $pet.name . "'>" . $pet.name . "</option>";
+            include_once __DIR__ . "/controller/petController.php";
+            if($loged_in){
+              $pets = getPetsWithOwner($email);
+              for ($i = 0; $i < count($pets); $i++) {
+                $pet = $pets[$i];
+                echo "<option value='" . $pet->name . "'>" . $pet->name . "</option>";
+              }
             }
           ?>
         </select>
