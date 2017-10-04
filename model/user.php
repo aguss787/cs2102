@@ -13,6 +13,8 @@
         {
             if($fieldName == strcmp($fieldName, "password")) {
                 parent::setValue($fieldName, md5($value));
+            } else if($fieldName == strcmp($fieldName, "activate")) {
+                parent::setValue($fieldName, $value ? "true" : "false");
             } else {
                 parent::setValue($fieldName, $value);
             }
