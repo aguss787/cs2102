@@ -10,17 +10,20 @@
     <main>
       <h1>Choose Taker</h1>
       <?php
-        $takers = server.getTakers();
-        for ($i = 0; $i < count($takers); i++) {
+        include_once __DIR__ . "/controller/takerController.php";
+        include_once __DIR__ . "/controller/userController.php";
+        $takers = getAllTakers();
+        for ($i = 0; $i < count($takers); $i++) {
           $taker = $takers[$i];
+          $user = getUser($taker->email);
           echo "<div class='taker'>";
-          echo "<p>Name: " . $taker.getName() . "</p>";
-          echo "<p class='star'>One star: " . $taker.getOneStar() . "</p>";
-          echo "<p class='star'>Two star: " . $taker.getTwoStar() . "</p>";
-          echo "<p class='star'>Three star: " . $taker.getThreeStar() . "</p>";
-          echo "<p class='star'>Four star: " . $taker.getFourStar() . "</p>";
-          echo "<p class='star'>Five star: " . $taker.getFiveStar() . "</p>";
-          echo "<p>Preference: " . $taker.getPreference() . "</p> </div>";
+          echo "<p>Name: " . $user->full_name . "</p>";
+          echo "<p class='star'>One star: " . $taker->one_star . "</p>";
+          echo "<p class='star'>Two star: " . $taker->two_star . "</p>";
+          echo "<p class='star'>Three star: " . $taker->three_star . "</p>";
+          echo "<p class='star'>Four star: " . $taker->four_star . "</p>";
+          echo "<p class='star'>Five star: " . $taker->five_star . "</p>";
+          echo "<p>Preference: " . $taker->preference . "</p> </div>";
         }
       ?>
       <form action="Additional_info.html">
