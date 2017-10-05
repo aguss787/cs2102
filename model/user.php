@@ -11,12 +11,20 @@
 
         protected function setValue($fieldName, $value)
         {
-            if($fieldName == strcmp($fieldName, "password")) {
+            if($fieldName == "password") {
                 parent::setValue($fieldName, md5($value));
-            } else if($fieldName == strcmp($fieldName, "activate")) {
+            } else if($fieldName == "activate") {
                 parent::setValue($fieldName, $value ? "true" : "false");
             } else {
                 parent::setValue($fieldName, $value);
+            }
+        }
+
+        public function __get($name) {
+            if($name == "full_name") {
+                return $this->first_name . " " . $this->last_name;
+            } else {
+                return parent::__get($name);
             }
         }
     }

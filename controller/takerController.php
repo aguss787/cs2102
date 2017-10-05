@@ -10,4 +10,8 @@
     function getTaker($email) {
         return Taker::loadFromDb($email);
     }
+
+    function getAllTakers() {
+        return Taker::findAll("TRUE");
+    }
 ?>

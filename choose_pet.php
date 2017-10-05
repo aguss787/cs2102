@@ -33,11 +33,9 @@
             }
           ?>
         </select>
-      </form>
-
-      <form action="choose_taker.html">
         <input id="submit" type="submit" value="To Choose Taker">
       </form>
+
     </main>
   </body>
 </html>
