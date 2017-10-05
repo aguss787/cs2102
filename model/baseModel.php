@@ -120,7 +120,6 @@
                 "SELECT * FROM $tableName WHERE $whereClause;"
             );
 
-            echo count($result);
             $ret = [];
             foreach ($result as $rawData) {
                 $cur = new static();
