@@ -1,125 +1,58 @@
 <!DOCTYPE html>
-<!-- HTML5 Hello world by kirupa - http://www.kirupa.com/html5/getting_your_feet_wet_html5_pg1.htm -->
 <html>
+	<head>
+		<title>Home page</title>
+		<style type="text/css">
+		.welcome_word{
+			text-align: center;
+		}
+		h2{
+			text-align: center;
+		}
+		#statement{
+			font-weight: bold;
+		}
+		a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
 
-<head>
-<meta charset="utf-8">
-<title>Hello</title>
-<style type="text/css">
-*{
-margin: 0px;
-}
-
-.buttonStyle {
-	background-color: #F2f2f2;
-	font-weight: bold;
-	border: none;
-    color: white;
-    text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 150%;
-    height: 100%;
-    margin: 40px;
-}
-
-#border{
-	width: 60%;
-	margin: auto;
-	background-color: #F2f2f2;
-	margin-top: 10px;
-}
-
-.buttonContainer {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-justify-content: center;
-	justify-content: center
-}
-
-.button{
-	background-color: #4CAF50;
-	border: none;
-	color:white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-}
-
-#header{
-	background-color: #f2f2f2;
-	text-align: center;
-	padding-top: 20px;
-}
-
-
-</style>
-<link rel="stylesheet" href="Sign_in.css">
-<title>HELLO</title>
-</head>
-
-<?php
-	session_start();
-	$loged_in = isset($_SESSION['email']);
-	$email = "";
-	if($loged_in) {
-		$email = $_SESSION["email"];
-	}
-?>
-
-<?php
-	$menu = '
-		hello ' . $email .
-		'<a href="sign_out.php">sign out</a> <div class = "buttonContainer">
-			<form class ="buttonStyle" action="add_pet.php">
-			<input type="submit" class="button" value="Add Pet" /> 
-			</form>
+    color: initial;
+    	}		
+    	#signin{
+    		position: absolute;
+   			right: 80px;
+    	}
+    	#signup{
+    		position: absolute;
+    		right: 10px;
+    	}
+    	#name{
+    		left:0px;
+    		width: 100px;
+    	}
+		</style>
+	</head>
+	<body>
+		<div id="headbar">
+		<!--NAVY | Sign in | Sign up -->
+			<h3 id="name">NAVY</h3>
+			<div id="buttons">
+				<a href="#" class="button" id="signin">Sign in</a> <!-- add link to sign in and sign up-->
+				<a href="#" class="button" id="signup">Sign up</a>
+			</div>
 		</div>
-
-		<div class = "buttonContainer">
-			<form class ="buttonStyle" action="choose_pet.php">
-			<input type="submit" class="button" value="Make Offer" />
-			</form>
+		<hr/>
+		<div id="welcome">
+			<h1 class="welcome_word">WELCOME</h1>
+			<h1 class="welcome_word">TO</h1>
+			<h1 class="welcome_word">NAVY</h1>
 		</div>
-
-		<div class = "buttonContainer">
-			<form class ="buttonStyle" action="betaker.php">
-			<input type="submit" class="button" value="Be Taker" />
-			</form>
+		<hr/>
+		<div>
+			<h2 id="statement">We Want To Help Your Pet</h2>
+			<h2>The website to find care taker for your pet when you are busy</h2>
 		</div>
-	';
-?>
-
-<?php
-	$login_form = '
-		<p class="heading">Sign In</p>
-
-		<form action="sign_in.php" autocomplete="on" method="POST">
-			<label for="email">Email:</label></br>
-			<input type="email" name="email" required>
-			<br>
-			<label for="password">Password:</label></br>
-			<input type="password" name="password" required>
-			<br><br>
-			<input type="submit" value="Sign In">
-		</form>
-		<p>Don\'t have an account? <a href="Sign_up.php">Sign up here</a></p>
-	';
-?>
-
-<body>
-	<div id ="border">
-		<?php 
-			if($loged_in) {
-				echo $menu;
-			} else {
-				echo $login_form;
-			}
-		?>
-	</div>
-</body>
+	</body>
 </html>
