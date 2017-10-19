@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Pet</title>
+    <title>Edit Pet</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="afterlogin-user.css">
 </head>
-
+<!--
 <?php
     session_start();
     $loged_in = isset($_SESSION['email']);
@@ -26,26 +26,33 @@
     }
     echo "YEY ITS OK!";
 ?>
-
+-->
 <body>
 <ul>
     <li><a href="#">NAVY</a></li> <!--go to mainpage-->
     <li style="float:right"><a href="index.php">Sign out</a></li>
 </ul>
 <div>
-<p class="heading">Add Pet</p>
+<p class="heading">Edit Pet</p>
 
-<form action="add_pet.php" method="post">
+<!-- The value of each input is taken from the database according to the pet clicked on the edit button -->
+<form action="edit_pet.php" method="post">
 	<label for="name">Name:</label></br>
-	<input type="text" name="name" required>
+	<input type="text" name="name" value="Lulu">
 	<br>
 	<label for="type">Pet Type:</label></br>
-	<input type="text" name="type" placeholder="For example, Dog" required>
+	<input type="text" name="type" value="Dog">
 	<br>
 	<label for="description">Description:</label></br>
-	<input type="text" name="description" required>
+	<input type="text" name="description" value="The dog has rabies">
+	<br>
+	<label for="contact">Contact number:</label></br> <!-- default value is the owner number -->
+	<input type="text" name="type" value="88888888">
+	<br>
+	<label for="address">Address:</label></br>
+	<input type="text" name="type" value="SOC"> <!--default value is the owner address-->
 	<br><br>
-	<input type="submit" value="Add Pet">
+	<input type="submit" value="Edit Pet">
 </form>
 <p>Go back to <a href="#">main page</a></p>
 </div>
