@@ -1,0 +1,299 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    background-image: url("background.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+
+
+
+/*----------------------------
+      Navigation bar
+----------------------------*/
+
+header {
+  height: 50px;
+  margin: 0 0 30px 0;
+  background-color: #333;
+  text-align: center;
+}
+
+#welcome {
+  padding: 14px 16px;
+  color: white;
+  text-align: center;
+}
+
+#logo {
+  display: block;
+  float: left;
+  color: white;
+  height: 100%;
+  line-height: 100%;
+  padding: 14px 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+ul {
+    height: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+li {
+  float: right;
+  height: 100%;
+}
+
+li a{
+  height: 100%;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active), a:hover:not(.active) {
+    background-color: #111;
+    }
+
+.active {
+    background-color: #4CAF50;
+    }
+
+/*----------------------------
+        Table
+----------------------------*/
+
+
+th, td, table {
+  border: 1px solid;
+  margin: 0;
+}
+
+#pet, #pend-offer, #acc-offer, #taker-offer {
+  border: 1px solid;
+}
+
+thead, tbody, tr {
+}
+
+table {
+  border:none;
+  width: 100%;
+  background-color: yellow;
+  border-collapse: collapse;
+}
+
+.first {
+  display: none;
+}
+
+.right {
+  border-right: none;
+}
+
+.left {
+  border-left: none;
+}
+
+.top {
+  border-top: none;
+}
+
+/*----------------------------
+        Pet table
+----------------------------*/
+
+#pet {
+  margin: 20px auto;
+  height: 300px;
+  width: 800px;
+}
+
+#pet .pet {
+  width: 70%;
+}
+
+#pet .add {
+  width: 30%;
+}
+
+#pet .name {
+  width: 20%;
+}
+
+#pet .type {
+  width: 10%;
+}
+
+#pet .description {
+  width: 40%;
+}
+
+#pet .edit {
+  width: 6%;
+}
+
+#pet .delete {
+  width: 6%;
+}
+
+#pet .make-offer {
+  width: 18%;
+}
+
+.header-status {
+  height: 40px;
+  line-height: 40px;
+  vertical-align: top;
+}
+
+.content {
+  width: 70%;
+}
+
+
+/*----------------------------
+        Pending Offer table
+----------------------------*/
+
+#pend-offer {
+  height: 300px;
+  width: 800px;
+  margin: 20px auto;
+}
+
+.pend-pet{
+  width: 15%;
+}
+
+.pend-taker {
+  width: 15%;
+}
+
+.pend-start-date {
+  width: 15%;
+}
+
+.pend-end-date {
+  width: 15%;
+}
+
+.pend-price {
+  width: 10%;
+}
+
+.pend-location {
+  width: 25%;
+}
+
+.btn-delete {
+  width: 5%;
+}
+
+/*----------------------------
+        Accepting offer table
+----------------------------*/
+
+#acc-offer {
+  height: 300px;
+  width: 800px;
+  margin: 20px auto;
+}
+
+.acc-pet {
+  width: 20%;
+}
+.acc-taker, .acc-start-date, .acc-end-date {
+  width: 20%;
+}
+
+.acc-rating {
+  width: 20%;
+}
+
+/*------------------------------
+    Taker offer section
+--------------------------------*/
+#taker-offer {
+  height: 300px;
+  width: 800px;
+  margin: 20px auto;
+}
+
+.taker-pet {
+  width: 15%;
+}
+
+.taker-user {
+  width: 15%;
+}
+
+.taker-start-date {
+  width: 15%;
+}
+
+.taker-end-date {
+  width: 15%;
+}
+
+.taker-price {
+  width: 10%;
+}
+
+.taker-location {
+  width: 20%;
+}
+
+.taker-accept {
+  width: 5%;
+}
+
+.taker-reject {
+  width: 5%;
+}
+/*----------------------------
+      Button
+----------------------------*/
+
+.btn-offer {
+  border: none;
+  border-radius: 4px;
+  background-color: #4CAF50;
+  width: 200px;
+  color: white;
+  padding: 14px 20px;
+  margin: 10px auto;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-offer:hover {
+  background-color: #45a049;
+}
+/*
+input[type=submit], .btn-offer {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+*/
