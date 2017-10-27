@@ -206,4 +206,13 @@
             return "'" . $val . "'";
         }
     }
+
+    function transaction(...$querySets) {
+        $db = new DbHandler();
+        $db->runQuery("BEGIN");
+        foreach ($querySets as $q) {
+            $q->eval($db);
+        }
+        $db->runQuery("COMMIT");
+    }
 ?>
