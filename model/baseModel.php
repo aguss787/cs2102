@@ -1,5 +1,5 @@
-<?php 
-    include_once __DIR__ . '/../db/dbhandler.php';
+<?php
+    include_once __DIR__ . '/querySet.php';
     include_once __DIR__ . '/exceptions.php';
 
     class BaseModel {
@@ -40,12 +40,10 @@
             $whereClause = $this->getWhereClause($args);
             $tableName = static::$tableName;
 
-            $result = $this->db->runQuery(
-                "SELECT * FROM $tableName WHERE $whereClause;"
-            );
+            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
 
             if(count($result) == 0) {
-                throw RecordNotFound();
+                throw new RecordNotFound();
             }
 
             $rawData = $result[0];
@@ -73,24 +71,11 @@
             $tableName = static::$tableName;
 
             if($this->isNew()) {
-                $concatedValue = $this->getConcatedValue();
-                $db->runQuery(
-                    "INSERT INTO $tableName " .
-                    "VALUES (" . $concatedValue . ");"
-                );
+                $this->getQuerySet()->insertValues($this->getValues())->eval();
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-                $setClause = $this->getUpdateSetClause();
-
-                $db->runQuery(
-                    "UPDATE $tableName " .
-                    "SET " .
-                        $setClause .
-                    "WHERE (" .
-                        $whereClause .
-                    ");"
-                );
+                $this->getQuerySet()->update(static::$fieldName, $this->getValues())->where($whereClause)->eval();
             }
         }
 
@@ -103,22 +88,14 @@
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-
-                $db->runQuery(
-                    "DELETE FROM $tableName " .
-                    "WHERE (" .
-                        $whereClause .
-                    ");"
-                );
+                $this->getQuerySet()->delete()->where($whereClause);
             }
         }
 
         public static function findAll($whereClause) {
             $tableName = static::$tableName;
             $db = new DbHandler();
-            $result = $db->runQuery(
-                "SELECT * FROM $tableName WHERE $whereClause;"
-            );
+            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
 
             $ret = [];
             foreach ($result as $rawData) {
@@ -140,7 +117,7 @@
             foreach(static::$fieldName as $fieldName) {
                 if($len > 0) $result = $result . ", ";
                 $len ++;
-                $result = $result . $fieldName . " = " . 
+                $result = $result . $fieldName . " = " .
                           $this->pad($this->$fieldName);
             }
             return $result;
@@ -161,6 +138,14 @@
                 if($len > 0) $result = $result . ", ";
                 $len ++;
                 $result = $result . $this->pad($this->$fieldName);
+            }
+            return $result;
+        }
+
+        private function getValues() {
+            $result = [];
+            foreach(static::$fieldName as $fieldName) {
+                array_push($result, $this->$fieldName);
             }
             return $result;
         }
@@ -208,6 +193,10 @@
 
         public function isNew() {
             return is_null($this->rawData);
+        }
+
+        public function getQuerySet() {
+            return (new QuerySet())->from(static::$tableName);
         }
     }
 ?>
