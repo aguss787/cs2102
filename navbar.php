@@ -1,46 +1,34 @@
 <?php
-/* TEMPORARY UNIVERSAL NAVIGATION BAR */
+include_once __DIR__ . '/controller/userController.php';
 
-echo 
-'<ul>
-	<li style="color:grey;">This is a temporary universal navbar</li>
-	<li><a href="index.php">Index</a></li>
-	<li><a href="sign_in.php">Sign In</a></li>
-	<li><a href="sign_up.php">Sign Up</a></li>
-	<li><a href="mainpage.php">Mainpage</a></li>
-	<li><a href="profile_normaluser.php">Profile Normal</a></li>
-	<li><a href="profile_taker.php">Profile Taker</a></li>
-	<li><a href="add_pet.php">Add Pet</a></li>
-	<li><a href="edit_pet.php">Edit Pet</a></li>
-</ul>';
-
-/*-----------------------------------------
-if user is not logged in {
-	
-} else {
-    if user is not taker {
-		
-	} else {
-		
-	}
-}
------------------------------------------*/
 echo "<ul>";
-if (true) {
-	echo '<li><a href="index.php">NAVY</a></li>
-	<li style="float:right"><a href="sign_in.php">Sign In</a></li>
-	<li style="float:right"><a href="sign_up.php">Sign Up</a></li>';
+if (!isset($_SESSION['email']) {
+	echo '<li><a href="index.php">NAVY</a></li>';
+	echo '<li style="float:right"><a href="sign_in.php">Sign In</a></li>';
+	echo '<li style="float:right"><a href="sign_up.php">Sign Up</a></li>';
 } else {
-	if (true){
-		echo '<li><a href="mainpage.php">NAVY</a></li>
-		<li style="float:right"><a href="">Be Taker</a></li>
-		<li style="float:right"><a href="profile_normaluser.php">Profile</a></li>';
-	} else {
-		echo '<li><a href="">NAVY</a></li>
-		<li style="float:right"><a href="profile_taker.php">Profile</a></li>';
+	echo '<li><a href="mainpage.php">NAVY</a></li>';
+	if (!isTaker($_SESSION['email'])){
+		echo '<li id="betaker" style="float:right">Be Taker</li>';
 	}
-	echo '<li style="float:right"><a href="">Search</a></li>
-	<li style="float:right"><a href="">Sign Out</a></li>';
+	echo '<li style="float:right"><a href="profile.php">Profile</a></li>';
+	echo '<li style="float:right"><a href="search.php">Search</a></li>';
+	echo '<li id="signout" style="float:right">Sign Out</li>';
 }
 echo "</ul>";
 ?>
+<script>
+// STILL ERROR, STILL TRYING TO FIND OUT HOW TO PUT PHP CODE INSIDE JAVASCRIPT
+// KNOW HOW TO USE AJAX?
+document.getElementById("betaker").onclick = function() {beTaker()};
+function beTaker() {
+	<?php upgradeToTaker($sessionEmail); ?>
+	window.location.href="profile.php";
+}
+
+document.getElementById("signout").onclick = function() {signOut()};
+function signOut() {
+	<?php session_unset();?>
+	window.location.href="index.php";
+}
+</script>

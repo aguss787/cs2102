@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿<?php
+	session_start();
+
+    $logged_in = isset($_SESSION['email']);
+    $email = "";
+
+    if(!$logged_in) {
+        header('Location:./index.php');
+    }
+?>
+
+<?php
+	include_once __DIR__ . '/controller/userController.php';
+?>
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>Mainpage</title>
@@ -11,6 +26,13 @@
 
 <!--------------------------------- THIS IS TAKER -------------------------------->
 <!---------------------------- IF USER IS TAKER, SHOW ---------------------------->
+<script>
+	var istaker = <?php echo "isTaker($_SESSION['email'])"?>;
+	if (istaker == true) {
+		document.getElementById("taker").style.display = "none";
+	}
+</script>
+
 <section id="taker">
   <section id="taker-offer">
     <table>
@@ -32,22 +54,22 @@
       <tbody>
 <!-- REPLACE THE DATA FROM DATABASE -->
 <!-- SAMPLE -->
-<script>
-var mytable = "";
-	for (i = 0; i < 20; i++) {
-        mytable += '<tr>' +
-          '<td class="left taker-pet"></td>' +
-          '<td class="taker-user"></td>' +
-          '<td class="taker-start-date"></td>' +
-          '<td class="taker-end-date"></td>' +
-          '<td class="taker-price"></td>' +
-          '<td class="taker-location"></td>' +
-          '<td class="taker-accept">Acc</td>' +
-          '<td class="right taker-reject">Rj</td>' +
-        '</tr>';
-	}
-document.write(mytable);
-</script>
+		<script>
+		var mytable = "";
+			for (i = 0; i < 20; i++) {
+				mytable += '<tr>' +
+				  '<td class="left taker-pet"></td>' +
+				  '<td class="taker-user"></td>' +
+				  '<td class="taker-start-date"></td>' +
+				  '<td class="taker-end-date"></td>' +
+				  '<td class="taker-price"></td>' +
+				  '<td class="taker-location"></td>' +
+				  '<td class="taker-accept">Acc</td>' +
+				  '<td class="right taker-reject">Rj</td>' +
+				'</tr>';
+			}
+		document.write(mytable);
+		</script>
 <!------------------------------------>
       </tbody>
     </table>
@@ -72,27 +94,27 @@ document.write(mytable);
       <tbody>
 <!-- REPLACE THE DATA FROM DATABASE -->
 <!-- SAMPLE -->
-<script>
-var mytable = "";
-	for (i = 0; i < 20; i++) {
-        mytable += '<tr>' +
-          '<td class="left pend-pet"></td>' +
-          '<td class="pend-taker"></td>' +
-          '<td class="pend-start-date"></td>' +
-          '<td class="pend-end-date"></td>' +
-          '<td class="pend-price"></td>' +
-          '<td class="pend-location"></td>' +
-          '<td class="btn-delete right">Del</td>' +
-       '</tr>';
-	}
-document.write(mytable);
-</script>
+		<script>
+		var mytable = "";
+			for (i = 0; i < 20; i++) {
+				mytable += '<tr>' +
+				  '<td class="left pend-pet"></td>' +
+				  '<td class="pend-taker"></td>' +
+				  '<td class="pend-start-date"></td>' +
+				  '<td class="pend-end-date"></td>' +
+				  '<td class="pend-price"></td>' +
+				  '<td class="pend-location"></td>' +
+				  '<td class="btn-delete right">Del</td>' +
+			   '</tr>';
+			}
+		document.write(mytable);
+		</script>
 <!------------------------------------>
       </tbody>
     </table>
   </section>
 </section>
-<!--------------------------------- UNTIL HERE IS TAKER -------------------------------->
+<!-------------------------- UNTIL HERE IS ADDITIONAL DATA FOR TAKER ------------------------->
 
 <section id="pet">
   <table>

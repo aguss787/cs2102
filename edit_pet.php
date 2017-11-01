@@ -1,3 +1,28 @@
+<?php
+    session_start();
+    $logged_in = isset($_SESSION['email']);
+    $email = "";
+	$petname = "";
+
+    if(!$logged_in) {
+        header('Location:./index.php');
+    } else {
+        $email = $_SESSION['email'];
+		$petname = $_SESSION['petname'];
+    }
+?>
+
+<?php
+	include_once __DIR__ . '/controller/petController.php';
+	
+	$pet = getPet($email, $petname);
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
+        editPet($email, $_POST['name'], $_POST['type'], $_POST['description'],
+               $_POST['prev_address'], $_POST['prev_contact_number']);
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,22 +39,31 @@
 <div class="center">
 <h1>Edit Pet</h1>
 
-<!-- The value of each input is taken from the database according to the pet clicked on the edit button -->
 <form action="edit_pet.php" method="post">
-  Name:</br>
-  <input type="text" name="name" value="Lulu">
+  Name:<br>
+  <?php
+  echo '<input type="text" name="name" value="' . $pet->name . '">';
+  ?>
   <br>
-  Pet Type:</br>
-  <input type="text" name="type" value="Dog">
+  Pet Type:<br>
+  <?php
+  echo '<input type="text" name="type" value="' . $pet->type . '">';
+  ?>
   <br>
-  Description:</br>
-  <input type="text" name="description" value="The dog has rabies">
+  Description:<br>
+  <?php
+  echo '<input type="text" name="description" value="' . $pet->description . '">';
+  ?>
   <br>
-  Contact number:</br> <!-- default value is the owner number -->
-  <input type="text" name="type" value="88888888">
+  Address:<br>
+  <?php
+  echo '<input type="text" name="prev_address" value="' . $pet->prev_address . '">';
+  ?>
   <br>
-  Address:</br>
-  <input type="text" name="type" value="SOC"> <!--default value is the owner address-->
+  Contact number:<br>
+  <?php
+  echo '<input type="text" name="prev_contact_number" value="' . $pet->prev_contact_number . '">';
+  ?>
   <br><br>
   <input type="submit" value="Edit Pet">
 </form>

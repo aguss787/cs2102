@@ -1,3 +1,24 @@
+<?php
+    session_start();
+    $logged_in = isset($_SESSION['email']);
+	
+    if($logged_in) {
+        header('Location:./mainpage.php');
+    }
+?>
+
+<?php	
+	include_once __DIR__ . '/controller/userController.php';
+	
+	$email = $_POST['email'];
+	$pass = $_POST['password'];
+	
+	if(signIn($email,$pass)) {
+		$_SESSION['email'] = $email;
+		header('Location:./mainpage.php');
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +35,7 @@
 <div class="center">
 <h1>Sign In</h1>
 
-<!--if user is not a taker then go to mainpage-user.php, otherwise go to mainpage-taker.php-->
-<!--put the link here-->
-
-<form action="" autocomplete="on" method="post">
+<form action="sign_in.php" autocomplete="on" method="post">
 	Email:</br>
 	<input type="email" name="email" required>
 	<br>

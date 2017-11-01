@@ -1,3 +1,28 @@
+<?php
+    session_start();
+    $logged_in = isset($_SESSION['email']);
+    $email = "";
+
+    if(!$logged_in) {
+        header('Location:./index.php');
+    } else {
+        $email = $_SESSION['email'];
+    }
+?>
+
+<?php
+    include_once __DIR__ . '/controller/petController.php';
+	include_once __DIR__ . '/controller/userController.php';
+	
+	$user = getCurrentUser();
+
+	/* THE DEFAULT VALUE OF ADDRESS AND CONTACT ARE THE OWNER'S*/
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
+        addPet($email, $_POST['name'], $_POST['type'], $_POST['description'],
+               $user->address, $user->contactNumber);
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,13 +40,13 @@
 <h1>Add Pet</h1>
 
 <form action="add_pet.php" method="post">
-  Name:</br>
+  Name:<br>
   <input type="text" name="name" required>
   <br>
-  Pet Type:</br>
+  Pet Type:<br>
   <input type="text" name="type" placeholder="For example, Dog" required>
   <br>
-  Description:</br>
+  Description:<br>
   <input type="text" name="description" required>
   <br><br>
   <input type="submit" value="Add Pet">
