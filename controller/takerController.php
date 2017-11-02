@@ -23,7 +23,7 @@
         $res = Taker::getQuerySet()->from("taker, users")
                                    ->select(Taker::$fieldName);
                                    ->filter('taker.email = user.email')
-                                   ->filter("users.first_name || ' ' || users.last_name LIKE '%$name%'")
+                                   ->filter("(users.first_name || ' ' || users.last_name) LIKE '%$name%'")
                                    ->filter("taker.preference LIKE '%$pref%'")
                                    ->limit($num);
 
