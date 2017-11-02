@@ -11,7 +11,7 @@
   <head>
     <title>Mainpage</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" href="main2.css">
+    <link rel="stylesheet" href="main.css">
   </head>
 
   <body>
