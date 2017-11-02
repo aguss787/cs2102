@@ -32,8 +32,14 @@
     function signIn($email, $password) {
         if(!isset($_SESSION))
             throw new SessionNotSet();
+
         $curUser = User::withProperties($email, $password);
-        $user = getUser($email);
+        try {
+            $user = getUser($email);
+        } catch (Exception $e) {
+            return false;
+        }
+
         if ($curUser->password == $user->password) {
             $_SESSION['email'] = $user->email;
             return true;

@@ -158,9 +158,11 @@
                 $sql = $sql . $this->tableName;
                 $sql = $sql . " SET ";
 
+                $tmp = [];
                 for($i = 0; $i < $len ; $i ++) {
-                    $sql = $sql . " " . $this->fieldName[$i] . " = " . static::pad($this->values[$i]);
+                    array_push($tmp, $this->fieldName[$i] . " = " . static::pad($this->values[$i]));
                 }
+                $sql = $sql . static::concate($tmp);
             } else if (strcmp($this->operation, static::$INSERT) == 0) {
                 if(is_null($this->values))
                     throw new InvalidSqlSetup("values is null");
