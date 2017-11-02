@@ -96,11 +96,9 @@
             }
         }
 
-        public static function findAll($whereClause, $db = NULL) {
+        public static function findAll($whereClause, $limit = NULL, $db = NULL) {
             $tableName = static::$tableName;
-            if(is_null($db))
-                $db = new DbHandler();
-            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
+            $result = $this->getQuerySet()->select()->filter($whereClause)->limit($limit)->eval($db);
 
             $ret = [];
             foreach ($result as $rawData) {
