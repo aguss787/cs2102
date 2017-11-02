@@ -12,22 +12,11 @@
     <title>Mainpage</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="stylesheet.css">
   </head>
 
   <body>
-    <header>
-      <a href="#" id="logo">NAVY</a>
-      <ul>
-        <li><a href="index.php">Sign out</a></li>
-        <li><a href="#">Profile</a></li>
-
-        <!-- Appear if user - Disappear if taker -->
-        <li><a href="#">Be a Taker</a></li>
-        <!-- -->
-
-        <li id="welcome"> Welcome, <?php echo getCurrentUser()->full_name; ?></li>
-      </ul>
-    </header>
+    <?php include 'navbar.php'; ?>
 
 
 <?php

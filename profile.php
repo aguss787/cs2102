@@ -11,20 +11,21 @@
 <?php
 	include_once __DIR__ . '/controller/userController.php';
 	include_once __DIR__ . '/controller/takerController.php';
-	
+
 	$user = getCurrentUser();
-	
+
 	$istaker = isTaker($_SESSION['email']);
 	if ($istaker) {
 		$taker = getTaker($_SESSION['email']);
 	}
-	
+
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
-		editProfileUser($_SESSION['email'], $_POST['password'], $_POST['firstname'], 
+		editProfileUser($_SESSION['email'], $_POST['password'], $_POST['firstname'],
 			$_POST['lastname'], $_POST['address'], $_POST['contact']);
 		if ($istaker) {
 			editProfileTaker($_SESSION['email'], $_POST['preference']);
 		}
+        $user = getCurrentUser();
 	}
 ?>
 
@@ -73,7 +74,7 @@
   <br>
   Password:<br>
   <?php
-  echo '<input id="password" type="password" name="psw" value="' . $user->password . '" disabled>';
+  echo '<input id="password" type="password" name="password" value="' . $user->password . '" disabled>';
   ?>
 <!-- If user is taker, show, else hide -->
   <?php
@@ -98,14 +99,14 @@
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span>' . $taker->five_star . '</span>';
 		echo '<br>';
-		
+
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span>' . $taker->four_star .'</span>';
 		echo '<br>';
-	
+
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
@@ -132,12 +133,12 @@ function edit() {
 	document.getElementById("address").disabled = false;
 	document.getElementById("contact").disabled = false;
 	document.getElementById("password").disabled = false;
-	
+
 	var istaker = "<?php echo $istaker; ?>";
-	if (istaker === 'true') {
+	if (istaker === true) {
 		document.getElementById("preference").disabled = false;
 	}
-	
+
 	document.getElementById("submit").style.display = "inline";
 	document.getElementById("edit").style.display = "none";
 }
