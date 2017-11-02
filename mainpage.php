@@ -147,7 +147,7 @@
         <thead>
           <tr class="header-status">
             <th class="left top pet" colspan="3">Pet</th>
-            <th class="right top add" colspan="3">Add</th>
+            <th class="right top add" colspan="3"><a href="add_pet.php">Add</a></th>
           </tr>
           <tr>
             <th class="left name">Name</th>
