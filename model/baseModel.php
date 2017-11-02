@@ -82,7 +82,7 @@
             }
         }
 
-        public function delete() {
+        public function delete($db = NULL) {
             $db = $this->db;
             $tableName = static::$tableName;
 
@@ -91,7 +91,7 @@
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-                $this->getQuerySet()->delete()->where($whereClause);
+                $this->getQuerySet()->delete()->where($whereClause)->eval($db);
             }
         }
 
