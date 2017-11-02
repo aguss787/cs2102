@@ -20,6 +20,7 @@
         protected $orderby;
         protected $fieldName;
         protected $values;
+        protected $limit;
 
         function __construct() {
             $this->operation = NULL;
@@ -31,6 +32,7 @@
             $this->orderby = [];
             $this->fieldName = NULL;
             $this->values = NULL;
+            $this->limit = NULL;
         }
 
         public function from($table) {
@@ -93,6 +95,10 @@
             return $this;
         }
 
+        public function where($clause) {
+            return $this->filter($clause);
+        }
+
         public function groupby($clause) {
             array_push($this->groupby, $clause);
             return $this;
@@ -110,6 +116,11 @@
 
         public function desc($colName) {
             array_push($this->orderby, $colName . " DESC");
+            return $this;
+        }
+
+        public function limit($clause) {
+            $this->limit = $clause;
             return $this;
         }
 
@@ -190,6 +201,10 @@
                 $sql = $sql . static::concate($this->orderby);
             }
 
+            if(!is_null($this->limit)) {
+                $sql = $sql . " LIMIT " . $this->limit;
+            }
+
             $sql = $sql . ";";
 
             return $sql;
@@ -214,5 +229,19 @@
             $q->eval($db);
         }
         $db->runQuery("COMMIT");
+    }
+
+    function startTransaction() {
+        $db = new DbHandler();
+        $db->runQuery("BEGIN");
+        return $db;
+    }
+
+    function commitTransaction($db) {
+        $db->runQuery("COMMIT");
+    }
+
+    function rollbackTransaction($db) {
+        $db->runQuery("ROLLBACK");
     }
 ?>

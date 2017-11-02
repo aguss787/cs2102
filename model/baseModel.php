@@ -26,6 +26,10 @@
         }
 
         public static function withProperties(...$args) {
+            return static::withPropertiesArray($args);
+        }
+
+        public static function withPropertiesArray($args) {
             $user = new static();
 
             $len = min(count($args), count(static::$fieldName));
@@ -36,11 +40,11 @@
             return $user;
         }
 
-        private function InnerLoadFromDb($args) {
+        private function InnerLoadFromDb($args, $db = NULL) {
             $whereClause = $this->getWhereClause($args);
             $tableName = static::$tableName;
 
-            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
+            $result = $this->getQuerySet()->select()->filter($whereClause)->eval($db);
 
             if(count($result) == 0) {
                 throw new RecordNotFound();
@@ -66,20 +70,25 @@
             return $user;
         }
 
-        public function save() {
-            $db = $this->db;
+        public static function loadFromDbWithTransaction($db, ...$args) {
+            $user = new static();
+            $user->InnerLoadFromDb($args, $db);
+            return $user;
+        }
+
+        public function save($db = NULL) {
             $tableName = static::$tableName;
 
             if($this->isNew()) {
-                $this->getQuerySet()->insertValues($this->getValues())->eval();
+                $this->getQuerySet()->insertValues($this->getValues())->eval($db);
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-                $this->getQuerySet()->update(static::$fieldName, $this->getValues())->where($whereClause)->eval();
+                $this->getQuerySet()->update(static::$fieldName, $this->getValues())->where($whereClause)->eval($db);
             }
         }
 
-        public function delete() {
+        public function delete($db = NULL) {
             $db = $this->db;
             $tableName = static::$tableName;
 
@@ -88,15 +97,25 @@
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-                $this->getQuerySet()->delete()->where($whereClause);
+                $this->getQuerySet()->delete()->where($whereClause)->eval($db);
             }
         }
 
-        public static function findAll($whereClause) {
+        public static function findAll($whereClause, $limit = NULL, $db = NULL) {
             $tableName = static::$tableName;
-            $db = new DbHandler();
-            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
+            $result = static::getQuerySet()->select()->filter($whereClause)->limit($limit)->eval($db);
 
+            $ret = [];
+            foreach ($result as $rawData) {
+                $cur = new static();
+                $cur->loadFromRawData($rawData);
+                array_push($ret, $cur);
+            }
+            return $ret;
+        }
+
+        public static function fromQuerySet($queryset, $db = NULL) {
+            $result = $queryset->eval($db);
             $ret = [];
             foreach ($result as $rawData) {
                 $cur = new static();
@@ -195,7 +214,7 @@
             return is_null($this->rawData);
         }
 
-        public function getQuerySet() {
+        public static function getQuerySet() {
             return (new QuerySet())->from(static::$tableName);
         }
     }
