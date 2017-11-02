@@ -15,6 +15,10 @@
         return Taker::findAll("TRUE");
     }
 
+    function isTaker($email) {
+        return count(Taker::findAll("email = $email")) > 0;
+    }
+
     function getTakers($name, $pref, $num = NULL) {
         $res = Taker::getQuerySet()->from("taker, users")
                                    ->select(Taker::$fieldName);
