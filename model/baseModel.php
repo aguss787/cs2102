@@ -26,6 +26,10 @@
         }
 
         public static function withProperties(...$args) {
+            return static::withPropertiesArray($args);
+        }
+
+        public static function withPropertiesArray($args) {
             $user = new static();
 
             $len = min(count($args), count(static::$fieldName));
@@ -98,6 +102,17 @@
                 $db = new DbHandler();
             $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
 
+            $ret = [];
+            foreach ($result as $rawData) {
+                $cur = new static();
+                $cur->loadFromRawData($rawData);
+                array_push($ret, $cur);
+            }
+            return $ret;
+        }
+
+        public static function fromQuerySet($queryset, $db = NULL) {
+            $result = $queryset->eval($db);
             $ret = [];
             foreach ($result as $rawData) {
                 $cur = new static();
@@ -196,7 +211,7 @@
             return is_null($this->rawData);
         }
 
-        public function getQuerySet() {
+        public static function getQuerySet() {
             return (new QuerySet())->from(static::$tableName);
         }
     }
