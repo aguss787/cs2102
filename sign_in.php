@@ -9,12 +9,8 @@
 
 <?php	
 	include_once __DIR__ . '/controller/userController.php';
-	
-	$email = $_POST['email'];
-	$pass = $_POST['password'];
-	
-	if(signIn($email,$pass)) {
-		$_SESSION['email'] = $email;
+		
+	if(signIn($_POST['email'],$_POST['password'])) {
 		header('Location:./mainpage.php');
 	}
 ?>

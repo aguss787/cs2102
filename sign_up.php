@@ -13,6 +13,8 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         signUp($_POST['email'], $_POST['password'], $_POST['firstname'], 
                $_POST['lastname'], $_POST['address'], $_POST['contact'], false);
+		signIn($_POST['email'], $_POST['password']);
+		header('Location:./mainpage.php');
     } 
 ?>
 
@@ -53,6 +55,7 @@
   <br><br>
   <input type="submit" value="Sign Up">
 </form>
+
 </div>
 </div>
 </body>

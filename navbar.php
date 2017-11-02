@@ -1,5 +1,6 @@
 <?php
 include_once __DIR__ . '/controller/userController.php';
+include_once __DIR__ . '/controller/takerController.php';
 
 echo "<ul>";
 if (!isset($_SESSION['email']) {

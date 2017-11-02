@@ -2,7 +2,6 @@
 	session_start();
 
     $logged_in = isset($_SESSION['email']);
-    $email = "";
 
     if(!$logged_in) {
         header('Location:./index.php');
@@ -11,6 +10,9 @@
 
 <?php
 	include_once __DIR__ . '/controller/userController.php';
+	include_once __DIR__ . '/controller/takerController.php';
+	
+	$istaker = isTaker($_SESSION['email']);
 ?>
 
 <!DOCTYPE html>
@@ -27,8 +29,8 @@
 <!--------------------------------- THIS IS TAKER -------------------------------->
 <!---------------------------- IF USER IS TAKER, SHOW ---------------------------->
 <script>
-	var istaker = <?php echo "isTaker($_SESSION['email'])"?>;
-	if (istaker == true) {
+	var istaker = <?php echo $istaker; ?>;
+	if (istaker === "false") {
 		document.getElementById("taker").style.display = "none";
 	}
 </script>
@@ -54,6 +56,9 @@
       <tbody>
 <!-- REPLACE THE DATA FROM DATABASE -->
 <!-- SAMPLE -->
+<?php
+echo '<td class="left taker-pet"></td>';
+?>
 		<script>
 		var mytable = "";
 			for (i = 0; i < 20; i++) {

@@ -1,12 +1,10 @@
 <?php
     session_start();
+	
     $logged_in = isset($_SESSION['email']);
-    $email = "";
 
     if(!$logged_in) {
         header('Location:./index.php');
-    } else {
-        $email = $_SESSION['email'];
     }
 ?>
 
@@ -18,8 +16,8 @@
 
 	/* THE DEFAULT VALUE OF ADDRESS AND CONTACT ARE THE OWNER'S*/
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
-        addPet($email, $_POST['name'], $_POST['type'], $_POST['description'],
-               $user->address, $user->contactNumber);
+        addPet($_SESSION['email'], $_POST['name'], $_POST['type'], $_POST['description'],
+            $user->address, $user->contact_number);
     }
 ?>
 

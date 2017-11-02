@@ -2,7 +2,6 @@
 	session_start();
 
     $logged_in = isset($_SESSION['email']);
-    $email = "";
 
     if(!$logged_in) {
         header('Location:./index.php');
@@ -11,8 +10,22 @@
 
 <?php
 	include_once __DIR__ . '/controller/userController.php';
+	include_once __DIR__ . '/controller/takerController.php';
 	
 	$user = getCurrentUser();
+	
+	$istaker = isTaker($_SESSION['email']);
+	if ($istaker) {
+		$taker = getTaker($_SESSION['email']);
+	}
+	
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
+		editProfileUser($_SESSION['email'], $_POST['password'], $_POST['firstname'], 
+			$_POST['lastname'], $_POST['address'], $_POST['contact']);
+		if ($istaker) {
+			editProfileTaker($_SESSION['email'], $_POST['preference']);
+		}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -37,20 +50,15 @@
 <div class="center">
 <h1>Profile</h1>
 
-<!--
-The value in each form input should be taken from the database.
-After submit, the new data replaces the old one in the database.
--->
-
 <form action="profile.php" method="post">
   First name:<br>
   <?php
-  echo '<input id="firstname" type="text" name="firstname" value="' . $user->firstName . '" disabled>';
+  echo '<input id="firstname" type="text" name="firstname" value="' . $user->first_name . '" disabled>';
   ?>
   <br>
   Last name:<br>
   <?php
-  echo '<input id="lastname" type="text" name="lastname" value="' . $user->lastName . '" disabled>';
+  echo '<input id="lastname" type="text" name="lastname" value="' . $user->last_name . '" disabled>';
   ?>
   <br>
   Address:<br>
@@ -60,7 +68,7 @@ After submit, the new data replaces the old one in the database.
   <br>
   Contact number:<br>
   <?php
-  echo '<input id="contact" type="text" name="contact" value="' . $user->contactNumber . '" disabled>';
+  echo '<input id="contact" type="text" name="contact" value="' . $user->contact_number . '" disabled>';
   ?>
   <br>
   Password:<br>
@@ -69,9 +77,9 @@ After submit, the new data replaces the old one in the database.
   ?>
 <!-- If user is taker, show, else hide -->
   <?php
-	if ($user->activate) {
-		echo '<br>Preference:<br>
-		<input id="preference" type="text" name="preference" value="' . $user->preference . '" disabled>';
+	if ($istaker) {
+		echo '<br>Preference:<br>';
+		echo '<input id="preference" type="text" name="preference" value="' . $taker->preference . '" disabled>';
 	}
   ?>
   <br><br>
@@ -81,36 +89,36 @@ After submit, the new data replaces the old one in the database.
 <button class="button" id="edit" onclick="edit()">Edit Profile</button>
 
 <?php
-	if ($user->activate) {
+	if ($istaker) {
 		echo '<h4>Feedback Ratings</h4>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $user->five_star . '</span>';
+		echo '<span>' . $taker->five_star . '</span>';
 		echo '<br>';
 		
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $user->four_star .'</span>';
+		echo '<span>' . $taker->four_star .'</span>';
 		echo '<br>';
 	
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $user->three_star . '</span>';
+		echo '<span>' . $taker->three_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $user->two_star . '</span>';
+		echo '<span>' . $taker->two_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $user->one_star . '</span>';
+		echo '<span>' . $taker->one_star . '</span>';
 	}
 ?>
 
@@ -125,8 +133,8 @@ function edit() {
 	document.getElementById("contact").disabled = false;
 	document.getElementById("password").disabled = false;
 	
-	var istaker = "<?php echo $user->activate; ?>";
-	if (istaker == true) {
+	var istaker = "<?php echo $istaker; ?>";
+	if (istaker === 'true') {
 		document.getElementById("preference").disabled = false;
 	}
 	

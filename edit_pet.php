@@ -1,24 +1,21 @@
 <?php
     session_start();
+	
     $logged_in = isset($_SESSION['email']);
-    $email = "";
-	$petname = "";
 
     if(!$logged_in) {
         header('Location:./index.php');
-    } else {
-        $email = $_SESSION['email'];
-		$petname = $_SESSION['petname'];
     }
 ?>
 
 <?php
 	include_once __DIR__ . '/controller/petController.php';
 	
-	$pet = getPet($email, $petname);
+	/* $_SESSION['pet_name'] is assigned from mainpage when clicking on the edit_pet button */
+	$pet = getPet($_SESSION['email'], $_SESSION['pet_name']);
 	
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
-        editPet($email, $_POST['name'], $_POST['type'], $_POST['description'],
+        editPet($_SESSION['email'], $_POST['name'], $_POST['type'], $_POST['description'],
                $_POST['prev_address'], $_POST['prev_contact_number']);
     }
 ?>
