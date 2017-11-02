@@ -1,3 +1,10 @@
+<?php
+  session_start();
+
+  include_once __DIR__ . '/controller/userController.php'
+  include_once __DIR__ . '/controller/takerController.php'
+  include_once __DIR__ . '/controller/petController.php'
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,23 +20,28 @@
 	</ul>
 	<div>
 		<p class="heading">Offer</p>
-		<form action="#">
+		<form action="make_offer.php" method="post">
+    <?php 
+        $pet = getPet($_POST['owner'], $_POST['pname']);
+        echo '
   			<h3>Pet information</h3> <!-- read from current pet -->
-  			Pet owner: <br>
-  			Pet name: <br>
-  			Type: <br>
+  			Pet owner: '.$pet->owner.'<br>
+  			Pet name: '.$pet->name.'<br>
+  			Type: '.$pet->type.'<br>
   			Location: <br>
-  			<input type="text" name="preference" value="Default Address">
+  			<input type="text" name="location" value="'.$pet->prev_address.'">
   			<br>
-  			Contact: <br>
-  			<input type="text" name="contact" value="Default Contact">
-  			<br>
+        <input type="hidden" name="owner" value='.$pet->owner.'">
+        <input type="hidden" name="pname" value='.$pet->name.'">
+        ';
   			
+        $taker = getTaker($_POST['email']);
+        echo '
   			<h3>Taker information</h3> <!-- read from chosen taker -->
-  			Taker name: <br>
-  			Taker contact: <br>
-  			Taker email: <br>
-  			Taker address: <br>
+  			Taker name: '.getTakerName($taker).'<br>
+  			Taker contact: '.getTakerContact($taker).'<br>
+  			Taker email: '.$taker->email.'<br>
+  			Taker address: '.getTakerAddress($taker).'<br>
   			Notice: <br>
   			<input type="text" name="notice"  placeholder="Ex: my dog love to eat fish">
   			<br>
@@ -43,6 +55,9 @@
   			<input type="date" name="end_date">
   			<br><br>
   			<input type="submit" value="Offer"> <!-- create new row in offer table -->
+        <input type="hidden" name="email" value="'.$taker->email.'">
+        ';
+      ?>
 		</form>
 	</div>
 </body>
