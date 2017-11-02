@@ -40,11 +40,11 @@
             return $user;
         }
 
-        private function InnerLoadFromDb($args) {
+        private function InnerLoadFromDb($args, $db = NULL) {
             $whereClause = $this->getWhereClause($args);
             $tableName = static::$tableName;
 
-            $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
+            $result = $this->getQuerySet()->select()->filter($whereClause)->eval($db);
 
             if(count($result) == 0) {
                 throw new RecordNotFound();
@@ -70,16 +70,15 @@
             return $user;
         }
 
-        public function save() {
-            $db = $this->db;
+        public function save($db = NULL) {
             $tableName = static::$tableName;
 
             if($this->isNew()) {
-                $this->getQuerySet()->insertValues($this->getValues())->eval();
+                $this->getQuerySet()->insertValues($this->getValues())->eval($db);
             } else {
                 $pk = $this->getPrimaryKeyValue();
                 $whereClause = $this->getWhereClause($pk);
-                $this->getQuerySet()->update(static::$fieldName, $this->getValues())->where($whereClause)->eval();
+                $this->getQuerySet()->update(static::$fieldName, $this->getValues())->where($whereClause)->eval($db);
             }
         }
 
