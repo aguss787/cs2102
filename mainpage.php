@@ -1,3 +1,10 @@
+<?php
+  /*
+    user_type = 0 : 1 (user : taker)
+  */
+  session_start();
+  $_SESSION("previous_url") = $_SERVER["PHP_SELF"];
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,6 +28,10 @@
       </ul>
     </header>
 
+
+<?php
+  if ($_SESSION["user_type"] == 1) {
+    echo '
     <section id="taker">
       <section id="taker-offer">
         <table>
@@ -40,16 +51,45 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td class="left taker-pet"></td>
-              <td class="taker-user"></td>
-              <td class="taker-start-date"></td>
-              <td class="taker-end-date"></td>
-              <td class="taker-price"></td>
-              <td class="taker-location"></td>
-              <td class="taker-accept">Acc</td>
-              <td class="right taker-reject">Rj</td>
-            </tr>
+          ';
+    $offers = getPendingOffersByTaker($_SESSION["user"]);
+
+    for ($x = 0; $x < count($offers); $x++) {
+      $p_name = $offers[$x]->p_name;
+      $p_owner = $offers[$x]->p_owner;
+      $t_email = $offers[$x]->t_email;
+      $care_start_date = $offers[$x]->care_start_date;
+      $care_end_date = $offers[$x]->care_end_date;
+      $price = $offers[$x]->price;
+      $p_location = $offers[$x]->p_location;
+      $key_info =
+        "<input type='hidden' name='p_name' value='".$p_name."'>
+        <input type='hidden' name='p_owner' value='".$p_owner."'>
+        <input type='hidden' name='t_email' value='".$t_email."'";
+      echo "<tr>
+              <td class='left taker-pet'>".$p_name."</td>
+              <td class='taker-user'>".$p_owner."</td>
+              <td class='taker-start-date'>".$care_start_date."</td>
+              <td class='taker-end-date'>".$care_end_date."</td>
+              <td class='taker-price'>".$price."</td>
+              <td class='taker-location'>".$p_location."</td>
+              <td class='taker-accept'>
+                <form action='manage.php' method='post'>
+                  <input type='hidden' name='choice' value='0'>"
+                  .$key_info.">
+                  <button type='submit' class='btn-link'>Go</button>
+                </form>
+              </td>
+              <td class='right taker-reject'>
+                <form action='manage.php' method='post'>
+                  <input type='hidden' name='choice' value='1'>"
+                  .$key_info.">
+                  <button type='submit' class='btn-link'>Go</button>
+                </form>
+              </td>
+            </tr>";
+    }
+    echo '
           </tbody>
         </table>
       </section>
@@ -70,21 +110,36 @@
               <th class="right"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td class="left pend-pet"></td>
-              <td class="pend-taker"></td>
-              <td class="pend-start-date"></td>
-              <td class="pend-end-date"></td>
-              <td class="pend-price"></td>
-              <td class="pend-location"></td>
-              <td class="btn-delete right">Del</td>
-            </tr>
+          <tbody>'
+      $offers = getAcceptedOffersByTaker($_SESSION["user"]);
+      for ($x = 0; $x < count($offers); $x++) {
+        $p_name = $offers[$x]->p_name;
+        $p_owner = $offers[$x]->p_owner;
+        $t_email = $offers[$x]->t_email;
+        $care_start_date = $offers[$x]->care_start_date;
+        $care_end_date = $offers[$x]->care_end_date;
+        $price = $offers[$x]->price;
+        $p_location = $offers[$x]->p_location;
+
+        echo "
+          <tr>
+            <td class='left pend-pet'>".$p_name."</td>
+            <td class='pend-taker'>".$p_owner."</td>
+            <td class='pend-start-date'>".$care_start_date."</td>
+            <td class='pend-end-date'>".$care_end_date."</td>
+            <td class='pend-price'>".$price."</td>
+            <td class='pend-location'>".$p_location."</td>
+            <td class='btn-delete right'>Del</td>
+          </td>
+        ";
+      }
+      echo '
           </tbody>
         </table>
       </section>
-    </section>
-
+    </section>';
+  }
+?>
     <section id="pet">
       <table>
         <thead>
@@ -100,14 +155,58 @@
         </thead>
 
         <tbody>
+          <?php
+            $pets = getPetsByOwner($_SESSION["user"]);
+
+            for ($x = 0; $x < count($pets); $x++) {
+              $name = $pets[$x]->name;
+              $type = $pets[$x]->type;
+              $description = $pets[$x]->description;
+              $owner = $pets[$x]->owner;
+              $key_info = "
+                <input type='hidden' name='name' value='".$name."'>
+                <input type='hidden' name='owner' value='".$owner."'";
+              echo "
+                <tr>
+                  <td class='left name'>".$name."</td>
+                  <td class='type'>".$type."<td>
+                  <td class='top description'>".$description."</td>
+                  <td class='edit'>
+                    <form action='actionPet.php' method='post'>
+                      <input type='hidden' name='choice' value='0'>"
+                      .$key_info.">
+                      <button type='submit' class='btn-link'>Go</button>
+                    </form>
+                  </td>
+                  <td class='delete'>
+                    <form action='actionPet.php' method='post'>
+                      <input type='hidden' name='choice' value='1'>"
+                      .$key_info.">
+                      <button type='submit' class='btn-link'>Go</button>
+                    </form>
+                  </td>
+                  <td class='make-offer right'>
+                    <form action='actionPet.php' method='post'>
+                      <input type='hidden' name='choice' value='2'"
+                      .$key_info.">
+                      <button type='submit' class='btn-link'>Go</button>
+                    </form>
+                  </td>
+                </tr>
+              ";
+
+            }
+          /*
           <tr>
-            <td class="left name"></td>
-            <td class="type"></td>
-            <td class="top description"></td>
-            <td class="edit">Edit</td>
-            <td class="delete">Delete</td>
-            <td class="make-offer right">Make offer</td>
+            <td class="left name">Mimi</td>
+            <td class="type">cat</td>
+            <td class="top description">Small</td>
+            <td class="edit"><a href="#">Edit</a></td>
+            <td class="delete"><a href="#">Delete</a></td>
+            <td class="make-offer right"><a href="#">Make offer</a></td>
           </tr>
+          */
+          ?>
         </tbody>
       </table>
     </section>
@@ -132,15 +231,41 @@
             </tr>
           </thead>
           <tbody>
+            <?php
+              $offers = getPendingOffersByUser($_SESSION("user"));
+              for ($x = 0; $x < count($offers); $x++) {
+                $p_name = $offers[$x]->p_name;
+                $p_owner = $offers[$x]->p_owner;
+                $t_email = $offers[$x]->t_email;
+                $care_start_date = $offers[$x]->care_start_date;
+                $care_end_date = $offers[$x]->care_end_date;
+                $price = $offers[$x]->price;
+                $p_location = $offers[$x]->p_location;
+
+                echo "
+                  <tr>
+                    <td class='left pend-pet'>".$p_name."</td>
+                    <td class='pend-taker'>".$t_email."</td>
+                    <td class='pend-start-date'>".$care_start_date."</td>
+                    <td class='pend-end-date'>".$care_end_date."</td>
+                    <td class='pend-price'>".$price."</td>
+                    <td class='pend-location'>".$p_location."</td>
+                    <td class='btn-delete right'>Del</td>
+                  </td>
+                "
+              }
+            /*
             <tr>
-              <td class="left pend-pet"></td>
-              <td class="pend-taker"></td>
-              <td class="pend-start-date"></td>
-              <td class="pend-end-date"></td>
-              <td class="pend-price"></td>
-              <td class="pend-location"></td>
-              <td class="btn-delete right">Del</td>
+              <td class="left pend-pet">Luffy</td>
+              <td class="pend-taker">Agus</td>
+              <td class="pend-start-date">03/11/2017</td>
+              <td class="pend-end-date">10/11/2017</td>
+              <td class="pend-price">10000</td>
+              <td class="pend-location">NUS</td>
+              <td class="btn-delete right"><a href="#">Del</a></td>
             </tr>
+            */
+            ?>
           </tbody>
         </table>
       </section>
@@ -160,13 +285,47 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="first">
-              <td class="left acc-pet"></td>
-              <td class="acc-taker"></td>
-              <td class="acc-start-date"></td>
-              <td class="acc-end-date"></td>
-              <td class="acc-rating right"></td>
-            </tr>
+            <?php
+              $offers = getAcceptedOffersByUser($_SESSION["user"]);
+
+              for ($x = 0; $x < count($offers); $x++) {
+                $p_owner = $offers[$x]->p_owner;
+                $p_name = $offers[$x]->p_name;
+                $t_email = $offers[$x]->t_email;
+                $care_start_date = $offers[$x]->care_start_date;
+                $care_end_date = $offers[$x]->care_end_date;
+
+                echo '
+                  <tr>
+                    <td class="left acc-pet">'.$p_name.'</td>
+                    <td class="acc-taker">'.$t_email.'</td>
+                    <td class="acc-start-date">'.$care_start_date.'</td>
+                    <td class="acc-end-date">'.$care_end_date.'</td>
+                    <td class="acc-rating">
+                    <form action="rateOffer.php" method="post">
+                      <input type="hidden" name="p_owner" value="'.$p_owner.'">
+                      <input type="hidden" name="p_name" value="'.$p_name'">
+                      <input type="hidden" name="t_email" value="'.$t_email'">
+                      <button class="rate" id="rate1" name="rate" value="1" type="submit" class="btn btn-link">1</button>
+                      <button class="rate" id="rate2" name="rate" value="2" type="submit" class="btn btn-link">2</button>
+                      <button class="rate" id="rate3" name="rate" value="3" type="submit" class="btn btn-link">3</button>
+                      <button class="rate" id="rate4" name="rate" value="4" type="submit" class="btn btn-link">4</button>
+                      <button class="rate" id="rate5" name="rate" value="5" type="submit" class="btn btn-link">5</button>
+                    </form>
+                    </td>
+                  </tr>
+                ';
+              }
+            /*
+              <tr class="first">
+                <td class="left acc-pet"></td>
+                <td class="acc-taker"></td>
+                <td class="acc-start-date"></td>
+                <td class="acc-end-date"></td>
+                <td class="acc-rating right"></td>
+              </tr>
+              */
+            ?>
           </tbody>
         </table>
       </section>
