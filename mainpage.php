@@ -4,6 +4,7 @@
   include_once __DIR__ . "/controller/petController.php";
   include_once __DIR__ . "/controller/offerController.php";
   include_once __DIR__ . "/controller/takerController.php";
+  include_once __DIR__ . "/router.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -173,7 +174,7 @@
                   <td class='type'>".$type."<td>
                   <td class='top description'>".$description."</td>
                   <td class='edit'>
-                    <form action='actionPet.php' method='post'>
+                    <form action=". $_ROUTER['edit_pet'] ." method='get'>
                       <input type='hidden' name='choice' value='0'>"
                       .$key_info.">
                       <button type='submit' class='btn-link'>Edit</button>
