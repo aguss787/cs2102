@@ -1,4 +1,6 @@
 <?php
+    class SessionNotSet extends Exception {}
+
     include_once __DIR__ . "/../model/user.php";
     include_once __DIR__ . "/takerController.php";
 
@@ -6,11 +8,21 @@
         return User::loadFromDb($email);
     }
 
+    function getCurrentUser() {
+        if(!isset($_SESSION))
+            throw new SessionNotSet();
+
+        if(!isset($_SESSION['email']))
+            return NULL;
+
+        return getUser($_SESSION['email']);
+    }
+
     function signUp($email, $password, $firstName,
-                    $lastName, $address, 
+                    $lastName, $address,
                     $contactNumber, $activate) {
         $user = User::withProperties(
-            $email, $password, $firstName, $lastName, 
+            $email, $password, $firstName, $lastName,
             $address, $contactNumber, $activate
         );
 
@@ -18,9 +30,16 @@
     }
 
     function signIn($email, $password) {
+        if(!isset($_SESSION))
+            throw new SessionNotSet();
         $curUser = User::withProperties($email, $password);
         $user = getUser($email);
-        return $curUser->password == $user->password;
+        if ($curUser->password == $user->password) {
+            $_SESSION['email'] = $user->email;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function upgradeToTaker($email) {

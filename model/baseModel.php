@@ -92,9 +92,10 @@
             }
         }
 
-        public static function findAll($whereClause) {
+        public static function findAll($whereClause, $db = NULL) {
             $tableName = static::$tableName;
-            $db = new DbHandler();
+            if(is_null($db))
+                $db = new DbHandler();
             $result = $this->getQuerySet()->select()->filter($whereClause)->eval();
 
             $ret = [];
