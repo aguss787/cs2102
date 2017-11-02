@@ -29,4 +29,10 @@
 
         return Taker::fromQuerySet($res);
     }
+
+    function editProfileTaker($email, $pref) {
+        $taker = getTaker($email);
+        $taker->preference = $pref;
+        $taker->save();
+    }
 ?>

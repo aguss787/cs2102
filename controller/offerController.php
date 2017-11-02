@@ -22,4 +22,8 @@
         return Offer::findAll("p_owner = '$p_owner'", $limit);
     }
 
+    function rejectOffer($p_name, $p_owner, $t_email) {
+        $offer = Offer::loadFromDb($p_name, $p_owner, $t_email);
+        $offer.delete();
+    }
 ?>

@@ -49,4 +49,14 @@
     function upgradeToTaker($email) {
         addTaker($email);
     }
+
+    function editProfileUser($email, $password, $firstName, $lastName, $address, $contact) {
+        $user = getUser($email);
+        $user->password = $password;
+        $user->first_name = $firstName;
+        $user->last_name = $lastName;
+        $user->address = $address;
+        $user->contact_number = $contact;
+        $user->save();
+    }
 ?>
