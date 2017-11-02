@@ -230,4 +230,18 @@
         }
         $db->runQuery("COMMIT");
     }
+
+    function startTransaction() {
+        $db = new DbHandler();
+        $db->runQuery("BEGIN");
+        return $db;
+    }
+
+    function commitTransaction($db) {
+        $db->runQuery("COMMIT");
+    }
+
+    function rollbackTransaction($db) {
+        $db->runQuery("ROLLBACK");
+    }
 ?>

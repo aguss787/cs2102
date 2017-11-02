@@ -70,6 +70,12 @@
             return $user;
         }
 
+        public static function loadFromDbWithTransaction($db, ...$args) {
+            $user = new static();
+            $user->InnerLoadFromDb($args, $db);
+            return $user;
+        }
+
         public function save($db = NULL) {
             $tableName = static::$tableName;
 
