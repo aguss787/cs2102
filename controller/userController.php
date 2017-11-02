@@ -42,6 +42,10 @@
         }
     }
 
+    function signOut() {
+        unset($_SESSION['email']);
+    }
+
     function upgradeToTaker($email) {
         addTaker($email);
     }
