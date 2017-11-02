@@ -1,6 +1,6 @@
 <?php
     session_start();
-	
+
     $logged_in = isset($_SESSION['email']);
 
     if(!$logged_in) {
@@ -10,12 +10,12 @@
 
 <?php
 	include_once __DIR__ . '/controller/petController.php';
-	
-	if (!logged_in) {
+
+	if (!$logged_in) {
 		echo "Nope belom login";
 		exit();
 	}
-	
+
 	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		if (strcmp($_SESSION['email'], $_POST['owner']) != 0) {
 			echo "Nope bukan pet lu. jangan main edit";
@@ -24,7 +24,7 @@
 		editPet($_SESSION['email'], $_POST['name'], $_POST['type'], $_POST['description'],
                 $_POST['prev_address'], $_POST['prev_contact_number']);
 		$pet = getPet($_POST['owner'], $_POST['name']);
-	} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {		
+	} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 		if (strcmp($_SESSION['email'], $_GET['owner']) != 0) {
 			echo "Nope bukan pet lu. jangan coba edit";
 			exit();
@@ -46,13 +46,13 @@
 
 <?php include 'navbar.php';?>
 
-<div class="container"> 
+<div class="container">
 <div class="center">
 <h1>Edit Pet</h1>
 
 <form action="edit_pet.php" method="post">
   <?php
-  echo '<input type="hidden" name="name" value="' . $pet->owner . '">';
+  echo '<input type="hidden" name="owner" value="' . $pet->owner . '">';
   ?>
   Name:<br>
   <?php
