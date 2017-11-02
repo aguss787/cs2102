@@ -11,13 +11,27 @@
 <?php
 	include_once __DIR__ . '/controller/petController.php';
 	
-	/* $_SESSION['pet_name'] is assigned from mainpage when clicking on the edit_pet button */
-	$pet = getPet($_SESSION['email'], $_SESSION['pet_name']);
+	if (!logged_in) {
+		echo "Nope belom login";
+		exit();
+	}
 	
-	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
-        editPet($_SESSION['email'], $_POST['name'], $_POST['type'], $_POST['description'],
-               $_POST['prev_address'], $_POST['prev_contact_number']);
-    }
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		if (strcmp($_SESSION['email'], $_POST['owner']) != 0) {
+			echo "Nope bukan pet lu. jangan main edit";
+			exit();
+		}
+		editPet($_SESSION['email'], $_POST['name'], $_POST['type'], $_POST['description'],
+                $_POST['prev_address'], $_POST['prev_contact_number']);
+		$pet = getPet($_POST['owner'], $_POST['name']);
+	} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {		
+		if (strcmp($_SESSION['email'], $_GET['owner']) != 0) {
+			echo "Nope bukan pet lu. jangan coba edit";
+			exit();
+		}
+		/* $_SESSION['pet_name'] is assigned from mainpage when clicking on the edit_pet button */
+		$pet = getPet($_GET['owner'], $_GET['name']);
+	}
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +51,9 @@
 <h1>Edit Pet</h1>
 
 <form action="edit_pet.php" method="post">
+  <?php
+  echo '<input type="hidden" name="name" value="' . $pet->owner . '">';
+  ?>
   Name:<br>
   <?php
   echo '<input type="text" name="name" value="' . $pet->name . '">';
