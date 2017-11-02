@@ -15,60 +15,34 @@ body {
 /*----------------------------
       Navigation bar
 ----------------------------*/
-
-header {
-  height: 50px;
-  margin: 0 0 30px 0;
-  background-color: #333;
-  text-align: center;
-}
-
-#welcome {
-  padding: 14px 16px;
-  color: white;
-  text-align: center;
-}
-
-#logo {
-  display: block;
-  float: left;
-  color: white;
-  height: 100%;
-  line-height: 100%;
-  padding: 14px 16px;
-  text-align: center;
-  text-decoration: none;
-}
-
 ul {
-    height: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-  }
+    background-color: #333;
+    }
 
 li {
-  float: right;
-  height: 100%;
-}
+    float: left;
+    }
 
-li a{
-  height: 100%;
-  display: block;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover:not(.active), a:hover:not(.active) {
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    }
+    
+li a:hover:not(.active) {
     background-color: #111;
     }
 
 .active {
     background-color: #4CAF50;
     }
+	
 
 /*----------------------------
         Table
@@ -82,10 +56,7 @@ th, td, table {
 
 #pet, #pend-offer, #acc-offer, #taker-offer {
   border: 1px solid;
-}
-
-#taker {
-  display: none;
+  overflow: auto;
 }
 
 thead, tbody, tr {
@@ -94,8 +65,19 @@ thead, tbody, tr {
 table {
   border:none;
   width: 100%;
-  background-color: yellow;
+  background-color: white;
   border-collapse: collapse;
+}
+
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:hover {background-color: #ddd;}
+
+table th {
+  background-color: yellow;
+}
+
+#taker table th{
+	background-color: #4CAF50;
 }
 
 .first {
@@ -146,14 +128,17 @@ table {
 
 #pet .edit {
   width: 6%;
+  text-align: center;
 }
 
 #pet .delete {
   width: 6%;
+  text-align: center;
 }
 
 #pet .make-offer {
   width: 18%;
+  text-align: center;
 }
 
 .header-status {
@@ -203,6 +188,7 @@ table {
 
 .btn-delete {
   width: 5%;
+  text-align: center;
 }
 
 /*----------------------------
@@ -261,10 +247,12 @@ table {
 
 .taker-accept {
   width: 5%;
+  text-align: center;
 }
 
 .taker-reject {
   width: 5%;
+  text-align: center;
 }
 /*----------------------------
       Button
@@ -285,6 +273,15 @@ table {
 .btn-offer:hover {
   background-color: #45a049;
 }
+
+div.container {
+	display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+ 	justify-content: center;
+    width: 100%;
+}
 /*
 input[type=submit], .btn-offer {
     width: 100%;
@@ -301,3 +298,41 @@ input[type=submit]:hover {
     background-color: #45a049;
 }
 */
+
+/*----------------------------
+      Rating Stars
+----------------------------*/
+
+.starRating:not(old){
+  display        : inline-block;
+  width          : 7.5em;
+  height         : 1.5em;
+  overflow       : hidden;
+  vertical-align : bottom;
+}
+.starRating:not(old) > input{
+  margin-right : -100%;
+  opacity      : 0;
+}
+.starRating:not(old) > label{
+  display         : block;
+  float           : right;
+  position        : relative;
+  background      : url('star-off.svg');
+  background-size : contain;
+}
+.starRating:not(old) > label:before{
+  content         : '';
+  display         : block;
+  width           : 1.5em;
+  height          : 1.5em;
+  background      : url('star-on.svg');
+  background-size : contain;
+  opacity         : 0;
+  transition      : opacity 0.2s linear;
+}
+.starRating:not(old) > label:hover:before,
+.starRating:not(old) > label:hover ~ label:before,
+.starRating:not(:hover) > :checked ~ label:before{
+  opacity : 1;
+}
