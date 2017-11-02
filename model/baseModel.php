@@ -103,7 +103,7 @@
 
         public static function findAll($whereClause, $limit = NULL, $db = NULL) {
             $tableName = static::$tableName;
-            $result = $this->getQuerySet()->select()->filter($whereClause)->limit($limit)->eval($db);
+            $result = static::getQuerySet()->select()->filter($whereClause)->limit($limit)->eval($db);
 
             $ret = [];
             foreach ($result as $rawData) {
