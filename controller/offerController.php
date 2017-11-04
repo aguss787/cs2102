@@ -60,7 +60,7 @@
         }
     }
 
-    function rateOffer($p_owner, $p_name, $t_email, $rate) {
+    function rateOffer($p_owner, $p_name, $t_email, $date, $rate) {
         if($rate == 1) {
             $rate = 'one';
         } else if($rate == 2) {
@@ -75,9 +75,9 @@
 
         $rate = $rate . '_star';
 
-        $db = beginTransaction();
+        $db = startTransaction();
         try {
-            $offer = AcceptedOffer::loadFromDbWithTransaction($db, $p_owner, $p_name, $t_email);
+            $offer = AcceptedOffer::loadFromDbWithTransaction($db, $p_owner, $p_name, $t_email, $date);
             $taker = Taker::loadFromDbWithTransaction($db, $t_email);
             $taker->$rate = $taker->$rate + 1;
             $taker->save($db);
