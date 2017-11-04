@@ -89,17 +89,17 @@
         <table>
           <thead>
             <tr class="header-status">
-              <th class="left top right"colspan="7">Accepted Offer(Taker)</th>
+              <th class="left top right"colspan="7">Unrated Offer(Taker)</th>
             </tr>
             <tr>
               <th class="left pend-pet">Pet</th>
               <th class="pend-taker">Name</th>
               <th class="pend-start-date">Care start date</th>
               <th class="pend-end-date">Care end date</th>
-              <th class="right"></th>
             </tr>
           </thead>
           <tbody>';
+              // <th class="right"></th>
       $offers = getAcceptedOffersByTaker($_SESSION["email"]);
       for ($x = 0; $x < count($offers); $x++) {
         $p_name = $offers[$x]->p_name;
@@ -114,9 +114,9 @@
             <td class='pend-taker'>".$p_owner."</td>
             <td class='pend-start-date'>".$care_start_date."</td>
             <td class='pend-end-date'>".$care_end_date."</td>
-            <td class='btn-delete right'>Del</td>
           </td>
         ";
+            // <td class='btn-delete right'>Del</td>
       }
       echo '
           </tbody>
@@ -291,6 +291,7 @@
                       <input type="hidden" name="p_owner" value="'.$p_owner.'">
                       <input type="hidden" name="p_name" value="'.$p_name.'">
                       <input type="hidden" name="t_email" value="'.$t_email.'">
+                      <input type="hidden" name="date" value="'.$care_start_date.'">
                       <button class="rate" id="rate1" name="rate" value="1" type="submit" class="btn btn-link">1</button>
                       <button class="rate" id="rate2" name="rate" value="2" type="submit" class="btn btn-link">2</button>
                       <button class="rate" id="rate3" name="rate" value="3" type="submit" class="btn btn-link">3</button>
