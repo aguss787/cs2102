@@ -11,15 +11,13 @@
     <title>Offer</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="afterlogin-user.css">
+	<link rel="stylesheet" href="stylesheet.css">
 </head>
 <body>
-	<ul>
-		<li><a href="#">NAVY</a></li> <!--go to mainpage-->
-		<li style="float:right"><a href="index.php">Sign out</a></li>
-	</ul>
-	<div>
-		<p class="heading">Offer</p>
+	<?php include 'navbar.php' ?>
+  <div class="container">
+	<div class="center">
+		<h1>Offer</h1>
 		<form action="make_offer.php" method="post">
     <?php
         $pet = getPet($_POST['owner'], $_POST['name']);
@@ -60,6 +58,7 @@
         ';
       ?>
 		</form>
+  </div>
 	</div>
 </body>
 </html>

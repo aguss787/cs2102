@@ -1,13 +1,13 @@
 *{
     margin: 0;
  }
- 
+
 body {
     background-image: url("background.jpg");
     background-size: cover;
 	background-attachment: fixed;
 }
-/* 
+/*
 	FLEXBOX CONTAINER
 */
 div.container {
@@ -54,7 +54,7 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
     }
-    
+
 li a:hover:not(.active) {
     background-color: #111;
     }
@@ -62,11 +62,12 @@ li a:hover:not(.active) {
 .active {
     background-color: #4CAF50;
     }
-	
+
 /*
 	INPUT AND BUTTON
 */
-input[type=text], input[type=password], input[type=email]{
+input[type=text], input[type=password], input[type=email],
+input[type=number], input[type=date] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -75,7 +76,7 @@ input[type=text], input[type=password], input[type=email]{
     border-radius: 4px;
     box-sizing: border-box;
 }
- 
+
 
 input[type=submit], .button {
     width: 100%;

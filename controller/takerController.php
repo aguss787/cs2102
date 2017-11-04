@@ -27,7 +27,7 @@
                                    ->filter('taker.email = users.email')
                                    ->filter("(users.first_name || ' ' || users.last_name) LIKE '%$name%'")
                                    ->filter("taker.preference LIKE '%$pref%'")
-                                   ->filter("($sumStar / $totalRating) >= $rating")
+                                   ->filter("$sumStar >= ($rating * $totalRating)")
                                    ->limit($num);
 
         return Taker::fromQuerySet($res);

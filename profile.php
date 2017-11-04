@@ -12,14 +12,18 @@
 	include_once __DIR__ . '/controller/userController.php';
 	include_once __DIR__ . '/controller/takerController.php';
 
-	$user = getCurrentUser();
 
-	$istaker = isTaker($_SESSION['email']);
+    if(!isset($_GET['email']))
+        $_GET['email'] = $_SESSION['email'];
+
+	$user = getUser($_GET['email']);
+
+	$istaker = isTaker($_GET['email']);
 	if ($istaker) {
-		$taker = getTaker($_SESSION['email']);
+		$taker = getTaker($_GET['email']);
 	}
 
-	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in) {
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in && $_POST['email'] === $_SESSION['email']) {
 		editProfileUser($_SESSION['email'], $_POST['password'], $_POST['firstname'],
 			$_POST['lastname'], $_POST['address'], $_POST['contact']);
 		if ($istaker) {
@@ -71,10 +75,11 @@
   <?php
   echo '<input id="contact" type="text" name="contact" value="' . $user->contact_number . '" disabled>';
   ?>
-  <br>
-  Password:<br>
   <?php
-  echo '<input id="password" type="password" name="password" value="' . $user->password . '" disabled>';
+  if($_GET['email'] === $_SESSION['email']){
+      echo '<br>Password:<br>';
+      echo '<input id="password" type="password" name="password" value="' . $user->password . '" disabled>';
+  }
   ?>
 <!-- If user is taker, show, else hide -->
   <?php
@@ -84,10 +89,16 @@
 	}
   ?>
   <br><br>
-  <input id="submit" type="submit" value="Change Profile" style="display:none;">
+  <?php
+    if($_GET['email'] === $_SESSION['email'])
+        echo '<input id="submit" type="submit" value="Change Profile" style="display:none;">';
+  ?>
 </form>
 
-<button class="button" id="edit" onclick="edit()">Edit Profile</button>
+<?php
+    if($_GET['email'] === $_SESSION['email'])
+        echo '<button class="button" id="edit" onclick="edit()">Edit Profile</button>';
+  ?>
 
 <?php
 	if ($istaker) {
@@ -134,8 +145,8 @@ function edit() {
 	document.getElementById("contact").disabled = false;
 	document.getElementById("password").disabled = false;
 
-	var istaker = "<?php echo $istaker; ?>";
-	if (istaker === true) {
+	var istaker = "<?php echo $istaker ? "true" : "false"; ?>";
+	if (istaker === "true") {
 		document.getElementById("preference").disabled = false;
 	}
 

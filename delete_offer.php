@@ -17,7 +17,7 @@
   }
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (strcmp($_SESSION['email'], $_POST['t_email']) != 0) {
+    if (strcmp($_SESSION['email'], $_POST['t_email']) != 0 and strcmp($_SESSION['email'], $_POST['p_owner']) != 0) {
       echo "Nope bukan offer lu. jangan hapus rejeki orang";
       exit();
     }

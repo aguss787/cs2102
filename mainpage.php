@@ -168,9 +168,7 @@
                       <button type='submit' class='btn-link'>Delete</button>
                     </form>
                   </td>
-                  <td class='
-                  
-                  -offer right'>
+                  <td class='offer right'>
                     <form action='search.php' method='post'>"
                       .$key_info."
                       <button type='submit' class='btn-link'>Make Offer</button>
@@ -180,6 +178,73 @@
               ";
 
             }
+            ?>
+          </tbody>
+        </table>
+      </section>
+
+    <div class="btn btn-offer">See Offer</div>
+    <section id="offer">
+      <section id="pend-offer">
+        <table>
+          <thead>
+            <tr class="header-status">
+              <th class="left top right"colspan="7">Pending Offer</th>
+            </tr>
+            <tr>
+              <th class="left pend-pet">Pet</th>
+              <th class="pend-taker">Taker</th>
+              <th class="pend-start-date">Care start date</th>
+              <th class="pend-end-date">Care end date</th>
+              <th class="pend-price">Price</th>
+              <th class="pend-location">Location</th>
+              <th class="right"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+              $offers = getPendingOffersByUser($_SESSION["email"]);
+              for ($x = 0; $x < count($offers); $x++) {
+                $p_name = $offers[$x]->p_name;
+                $p_owner = $offers[$x]->p_owner;
+                $t_email = $offers[$x]->t_email;
+                $care_start_date = $offers[$x]->care_start_date;
+                $care_end_date = $offers[$x]->care_end_date;
+                $price = $offers[$x]->price;
+                $p_location = $offers[$x]->p_location;
+                $key_info =
+                  "<input type='hidden' name='p_name' value='".$p_name."'>
+                  <input type='hidden' name='p_owner' value='".$p_owner."'>
+                  <input type='hidden' name='t_email' value='".$t_email."'";
+                echo "
+                  <tr>
+                    <td class='left pend-pet'>".$p_name."</td>
+                    <td class='pend-taker'>".$t_email."</td>
+                    <td class='pend-start-date'>".$care_start_date."</td>
+                    <td class='pend-end-date'>".$care_end_date."</td>
+                    <td class='pend-price'>".$price."</td>
+                    <td class='pend-location'>".$p_location."</td>
+                    <td class='btn-delete right'>
+                      <form action='". $_ROUTER['delete_offer'] ."' method='post'>
+                        <input type='hidden' name='choice' value='1'>"
+                        .$key_info.">
+                        <button type='submit' class='btn-link'>Cancel</button>
+                      </form>
+                    </td>
+                  </td>
+                ";
+              }
+            /*
+            <tr>
+              <td class="left pend-pet">Luffy</td>
+              <td class="pend-taker">Agus</td>
+              <td class="pend-start-date">03/11/2017</td>
+              <td class="pend-end-date">10/11/2017</td>
+              <td class="pend-price">10000</td>
+              <td class="pend-location">NUS</td>
+              <td class="btn-delete right"><a href="#">Del</a></td>
+            </tr>
+            */
             ?>
           </tbody>
         </table>
