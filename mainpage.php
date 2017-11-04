@@ -65,14 +65,14 @@
               <td class='taker-price'>".$price."</td>
               <td class='taker-location'>".$p_location."</td>
               <td class='taker-accept'>
-                <form action='manage.php' method='post'>
+                <form action='". $_ROUTER['acc_offer'] ."' method='post'>
                   <input type='hidden' name='choice' value='0'>"
                   .$key_info.">
                   <button type='submit' class='btn-link'>Accept</button>
                 </form>
               </td>
               <td class='right taker-reject'>
-                <form action='manage.php' method='post'>
+                <form action='". $_ROUTER['delete_offer'] ."' method='post'>
                   <input type='hidden' name='choice' value='1'>"
                   .$key_info.">
                   <button type='submit' class='btn-link'>Reject</button>
@@ -96,8 +96,6 @@
               <th class="pend-taker">Name</th>
               <th class="pend-start-date">Care start date</th>
               <th class="pend-end-date">Care end date</th>
-              <th class="pend-price">Price</th>
-              <th class="pend-location">Location</th>
               <th class="right"></th>
             </tr>
           </thead>
@@ -109,8 +107,6 @@
         $t_email = $offers[$x]->t_email;
         $care_start_date = $offers[$x]->care_start_date;
         $care_end_date = $offers[$x]->care_end_date;
-        $price = $offers[$x]->price;
-        $p_location = $offers[$x]->p_location;
 
         echo "
           <tr>
@@ -118,8 +114,6 @@
             <td class='pend-taker'>".$p_owner."</td>
             <td class='pend-start-date'>".$care_start_date."</td>
             <td class='pend-end-date'>".$care_end_date."</td>
-            <td class='pend-price'>".$price."</td>
-            <td class='pend-location'>".$p_location."</td>
             <td class='btn-delete right'>Del</td>
           </td>
         ";

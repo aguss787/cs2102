@@ -9,7 +9,7 @@
 ?>
 
 <?php
-  include_once __DIR__ . '/controller/petController.php';
+  include_once __DIR__ . '/controller/offerController.php';
 
   if (!$logged_in) {
     echo "Nope belom login";
@@ -17,11 +17,11 @@
   }
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (strcmp($_SESSION['email'], $_POST['owner']) != 0) {
-      echo "Nope bukan pet lu. jangan main edit";
+    if (strcmp($_SESSION['email'], $_POST['t_email']) != 0) {
+      echo "Nope bukan offer lu. jangan comot rejeki orang";
       exit();
     }
-    deletePet($_POST['owner'], $_POST['name']);
+    acceptOffer($_POST['p_name'], $_POST['p_owner'], $_POST['t_email']);
     header('Location:./index.php');
   }
 ?>
