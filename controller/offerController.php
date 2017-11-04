@@ -32,8 +32,8 @@
     }
 
     function deleteOffer($p_name, $p_owner, $t_email, $db = NULL) {
-        $offer = Offer::loadFromDb($p_name, $p_owner, $t_email);
-        $offer.delete($db);
+        $offer = Offer::loadFromDbWithTransaction($db, $p_owner, $p_name, $t_email);
+        $offer->delete($db);
     }
 
     function rejectOffer($p_name, $p_owner, $t_email) {
@@ -43,8 +43,8 @@
     function acceptOffer($p_name, $p_owner, $t_email) {
         $db = startTransaction();
         try {
-            $offer = Offer::loadFromDbWithTransaction($p_name, $p_owner, $t_email);
-            $newOffer = AcceptOffer::withProperties(
+            $offer = Offer::loadFromDbWithTransaction($db, $p_owner, $p_name, $t_email);
+            $newOffer = AcceptedOffer::withProperties(
                 $offer->p_owner,
                 $offer->p_name,
                 $offer->t_email,
@@ -55,6 +55,7 @@
             deleteOffer($p_name, $p_owner, $t_email, $db);
             commitTransaction($db);
         } catch (Exception $e) {
+            error_log($e);
             rollbackTransaction($db);
         }
     }
@@ -76,8 +77,8 @@
 
         $db = beginTransaction();
         try {
-            $offer = AcceptedOffer::loadFromDbWithTransaction($p_name, $p_owner, $t_email);
-            $taker = Taker::loadFromDbWithTransaction($t_email, $db);
+            $offer = AcceptedOffer::loadFromDbWithTransaction($db, $p_owner, $p_name, $t_email);
+            $taker = Taker::loadFromDbWithTransaction($db, $t_email);
             $taker->$rate = $taker->$rate + 1;
             $taker->save($db);
             $offer->delete($db);
