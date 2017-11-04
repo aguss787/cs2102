@@ -1,9 +1,9 @@
 <?php
   session_start();
 
-  include_once __DIR__ . '/controller/userController.php'
-  include_once __DIR__ . '/controller/takerController.php'
-  include_once __DIR__ . '/controller/petController.php'
+  include_once __DIR__ . '/controller/userController.php';
+  include_once __DIR__ . '/controller/takerController.php';
+  include_once __DIR__ . '/controller/petController.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -21,8 +21,8 @@
 	<div>
 		<p class="heading">Offer</p>
 		<form action="make_offer.php" method="post">
-    <?php 
-        $pet = getPet($_POST['owner'], $_POST['pname']);
+    <?php
+        $pet = getPet($_POST['owner'], $_POST['name']);
         echo '
   			<h3>Pet information</h3> <!-- read from current pet -->
   			Pet owner: '.$pet->owner.'<br>
@@ -31,17 +31,18 @@
   			Location: <br>
   			<input type="text" name="location" value="'.$pet->prev_address.'">
   			<br>
-        <input type="hidden" name="owner" value='.$pet->owner.'">
-        <input type="hidden" name="pname" value='.$pet->name.'">
+        <input type="hidden" name="owner" value="'.$pet->owner.'">
+        <input type="hidden" name="pname" value="'.$pet->name.'">
         ';
-  			
+
         $taker = getTaker($_POST['email']);
+        $user = getUser($taker->email);
         echo '
   			<h3>Taker information</h3> <!-- read from chosen taker -->
-  			Taker name: '.getTakerName($taker).'<br>
-  			Taker contact: '.getTakerContact($taker).'<br>
+  			Taker name: '.$user->full_name.'<br>
+  			Taker contact: '.$user->contact_number.'<br>
   			Taker email: '.$taker->email.'<br>
-  			Taker address: '.getTakerAddress($taker).'<br>
+  			Taker address: '.$user->address.'<br>
   			Notice: <br>
   			<input type="text" name="notice"  placeholder="Ex: my dog love to eat fish">
   			<br>
@@ -54,8 +55,8 @@
   			Care end date: <br>
   			<input type="date" name="end_date">
   			<br><br>
-  			<input type="submit" value="Offer"> <!-- create new row in offer table -->
         <input type="hidden" name="email" value="'.$taker->email.'">
+        <input type="submit" value="Offer"> <!-- create new row in offer table -->
         ';
       ?>
 		</form>
