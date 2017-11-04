@@ -99,7 +99,6 @@
             </tr>
           </thead>
           <tbody>';
-              // <th class="right"></th>
       $offers = getAcceptedOffersByTaker($_SESSION["email"]);
       for ($x = 0; $x < count($offers); $x++) {
         $p_name = $offers[$x]->p_name;
@@ -150,7 +149,7 @@
               $owner = $pets[$x]->owner;
               $key_info = "
                 <input type='hidden' name='name' value='".$name."'>
-                <input type='hidden' name='owner' value='".$owner."'";
+                <input type='hidden' name='owner' value='".$owner."'>";
               echo "
                 <tr>
                   <td class='left name'>".$name."</td>
@@ -159,21 +158,21 @@
                   <td class='edit'>
                     <form action=". $_ROUTER['edit_pet'] ." method='get'>
                       <input type='hidden' name='choice' value='0'>"
-                      .$key_info.">
+                      .$key_info."
                       <button type='submit' class='btn-link'>Edit</button>
                     </form>
                   </td>
                   <td class='delete'>
-                    <form action='". $_ROUTER['delete_pet'] ."' method='post'>
-                      <input type='hidden' name='choice' value='1'>"
-                      .$key_info.">
+                    <form action='". $_ROUTER['delete_pet'] ."' method='post'>"
+                      .$key_info."
                       <button type='submit' class='btn-link'>Delete</button>
                     </form>
                   </td>
-                  <td class='make-offer right'>
-                    <form action='actionPet.php' method='post'>
-                      <input type='hidden' name='choice' value='2'"
-                      .$key_info.">
+                  <td class='
+                  
+                  -offer right'>
+                    <form action='search.php' method='post'>"
+                      .$key_info."
                       <button type='submit' class='btn-link'>Make Offer</button>
                     </form>
                   </td>
@@ -181,75 +180,6 @@
               ";
 
             }
-          /*
-          <tr>
-            <td class="left name">Mimi</td>
-            <td class="type">cat</td>
-            <td class="top description">Small</td>
-            <td class="edit"><a href="#">Edit</a></td>
-            <td class="delete"><a href="#">Delete</a></td>
-            <td class="make-offer right"><a href="#">Make offer</a></td>
-          </tr>
-
-          ?>
-        </tbody>
-      </table>
-    </section>
-
-    <div class="btn btn-offer">See Offer</div>
-
-    <section id="offer">
-      <section id="pend-offer">
-        <table>
-          <thead>
-            <tr class="header-status">
-              <th class="left top right"colspan="7">Pending Offer</th>
-            </tr>
-            <tr>
-              <th class="left pend-pet">Pet</th>
-              <th class="pend-taker">Taker</th>
-              <th class="pend-start-date">Care start date</th>
-              <th class="pend-end-date">Care end date</th>
-              <th class="pend-price">Price</th>
-              <th class="pend-location">Location</th>
-              <th class="right"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $offers = getPendingOffersByUser($_SESSION["email"]);
-              for ($x = 0; $x < count($offers); $x++) {
-                $p_name = $offers[$x]->p_name;
-                $p_owner = $offers[$x]->p_owner;
-                $t_email = $offers[$x]->t_email;
-                $care_start_date = $offers[$x]->care_start_date;
-                $care_end_date = $offers[$x]->care_end_date;
-                $price = $offers[$x]->price;
-                $p_location = $offers[$x]->p_location;
-
-                echo "
-                  <tr>
-                    <td class='left pend-pet'>".$p_name."</td>
-                    <td class='pend-taker'>".$t_email."</td>
-                    <td class='pend-start-date'>".$care_start_date."</td>
-                    <td class='pend-end-date'>".$care_end_date."</td>
-                    <td class='pend-price'>".$price."</td>
-                    <td class='pend-location'>".$p_location."</td>
-                    <td class='btn-delete right'>Del</td>
-                  </td>
-                ";
-              }
-            /*
-            <tr>
-              <td class="left pend-pet">Luffy</td>
-              <td class="pend-taker">Agus</td>
-              <td class="pend-start-date">03/11/2017</td>
-              <td class="pend-end-date">10/11/2017</td>
-              <td class="pend-price">10000</td>
-              <td class="pend-location">NUS</td>
-              <td class="btn-delete right"><a href="#">Del</a></td>
-            </tr>
-            */
             ?>
           </tbody>
         </table>

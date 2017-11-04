@@ -44,13 +44,25 @@
 	  			<input type="number" name="rating"  placeholder="Ex: 3.5" step="0.1" min="1" max="5">
 	  			<br><br>
 	  			<?php
-	  				if (!isset($_POST) || $_POST['num'] == 0) {
-	  					echo '<input type="hidden" name="num" value="0">';
-	  				} else {
-	  					echo '<input type="hidden" name="num" value="0">';
-	  					echo '<input type="hidden" name="name" value="'.$_POST['pname'].'">';
+					/*
+						num = 0 => normal search
+						num = 1 => make offer search
+						num = 2 => normal search (already search one time)
+						num = 3 => make offer search (already search one time)
+					*/
+	  				if (!isset($_POST)) {
+							echo '<input type="hidden" name="num" value="0">';
+						} else if (!isset($_POST['num'])) {
+							echo '<input type="hidden name="num" value="1">';
+							echo '<input type="hidden" name="name" value="'.$_POST['name'].'">';
 	  					echo '<input type="hidden" name="owner" value='.$_POST['owner'].'">';
-	  				}
+						} else if ($_POST['num'] == 3) {
+							echo '<input type="hidden" name="num" value="3">';
+							echo '<input type="hidden" name="name" value="'.$_POST['name'].'">';
+	  					echo '<input type="hidden" name="owner" value='.$_POST['owner'].'">';
+						} else {
+							echo '<input type="hidden" name="num" value="2">';
+						}
 	  			?>
 	  			<input type="submit" value="Search">
 			</form>
@@ -80,10 +92,10 @@
 								<td>N.A</td>
 								<td>N.A</td>
 							</tr>
-						';	
+						';
 					} else {
 						for ($i = 0; $i < $_POST['numTakers']; $i++) {
-							$taker = $_POST['taker'.i];
+							$taker = $_POST['taker'.$i];
 							$taker_name = getTakerName($taker);
 							$taker_location = getTakerLocation($taker);
 							$taker_one_star = $taker->one_star;
@@ -94,17 +106,17 @@
 							if ($_POST['num'] == 2) {
 								$temp = '
 									<form action="dealClick.php" method="post">
-										<input type="hidden" name="email" value="'.$_POST['email'.i].'">
+										<input type="hidden" name="email" value="'.$_POST['taker'.$i].'">
 										<input type="hidden" name="next" value="0">
-										<button type="submit">'.$taker_name.'</button>  
+										<button type="submit">'.$taker_name.'</button>
 									</form>
 								';
 							} else {
 								$temp = '
 									<form action="dealClick.php" method="post">
-										<input type="hidden" name="email" value="'.$_POST['email'.i].'">
+										<input type="hidden" name="email" value="'.$_POST['taker'.$i].'">
 										<input type="hidden" name="next" value="1">
-										<input type="hidden" name="name" value="'._POST['pname'].'">
+										<input type="hidden" name="name" value="'._POST['name'].'">
 										<input type="hidden" name="owner" value="'._POST['owner'].'">
 										<button type="submit">'.$taker_name.'</button>
 									</form>
@@ -127,6 +139,6 @@
 				?>
 			</tbody>
 		</table>
-	</div> 
+	</div>
 </body>
 </html>

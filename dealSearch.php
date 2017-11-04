@@ -18,10 +18,11 @@
 
 	for ($i = 0; $i < count($takers); $i++) {
 		$temp = "taker".$i;
-		echo '<input type="hidden" name="name" value="'.$takers[$i]->email.'">';
+		echo '<input type="hidden" name="'.$temp.'" value="'.$takers[$i]->email.'">';
 	}
 	echo '<input type="hidden" name="numTakers" value="'.count($takers).'">';
 ?>
+	<button type="submit"></button>
 </form>
 <script type="text/javascript">
 	document.getElementById('myForm').submit();

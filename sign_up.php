@@ -1,7 +1,6 @@
 <?php
     session_start();
     $logged_in = isset($_SESSION['email']);
-	
     if($logged_in) {
         header('Location:./mainpage.php');
     }
@@ -30,7 +29,7 @@
 
 <?php include 'navbar.php';?>
 
-<div class="container"> 
+<div class="container">
 <div class="center">
 <h1>Sign Up</h1>
 
