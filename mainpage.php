@@ -153,7 +153,7 @@
               echo "
                 <tr>
                   <td class='left name'>".$name."</td>
-                  <td class='type'>".$type."<td>
+                  <td class='type'>".$type."</td>
                   <td class='top description'>".$description."</td>
                   <td class='edit'>
                     <form action=". $_ROUTER['edit_pet'] ." method='get'>
