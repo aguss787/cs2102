@@ -1,36 +1,26 @@
 <?php
-  /*
-    user_type = 0 : 1 (user : taker)
-  */
   session_start();
-  $_SESSION("previous_url") = $_SERVER["PHP_SELF"];
+  include_once __DIR__ . "/controller/userController.php";
+  include_once __DIR__ . "/controller/petController.php";
+  include_once __DIR__ . "/controller/offerController.php";
+  include_once __DIR__ . "/controller/takerController.php";
+  include_once __DIR__ . "/router.php";
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title>Mainpage</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" href="main2.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="stylesheet.css">
   </head>
 
   <body>
-    <header>
-      <a href="#" id="logo">NAVY</a>
-      <ul>
-        <li><a href="index.php">Sign out</a></li>
-        <li><a href="#">Profile</a></li>
-
-        <!-- Appear if user - Disappear if taker -->
-        <li><a href="#">Be a Taker</a></li>
-        <!-- -->
-
-        <li id="welcome"> Welcome,...</li>
-      </ul>
-    </header>
+    <?php include 'navbar.php'; ?>
 
 
 <?php
-  if ($_SESSION["user_type"] == 1) {
+  if (isTaker($_SESSION['email'])) {
     echo '
     <section id="taker">
       <section id="taker-offer">
@@ -52,7 +42,8 @@
 
           <tbody>
           ';
-    $offers = getPendingOffersByTaker($_SESSION["user"]);
+
+    $offers = getPendingOffersByTaker($_SESSION["email"]);
 
     for ($x = 0; $x < count($offers); $x++) {
       $p_name = $offers[$x]->p_name;
@@ -74,17 +65,17 @@
               <td class='taker-price'>".$price."</td>
               <td class='taker-location'>".$p_location."</td>
               <td class='taker-accept'>
-                <form action='manage.php' method='post'>
+                <form action='". $_ROUTER['acc_offer'] ."' method='post'>
                   <input type='hidden' name='choice' value='0'>"
                   .$key_info.">
-                  <button type='submit' class='btn-link'>Go</button>
+                  <button type='submit' class='btn-link'>Accept</button>
                 </form>
               </td>
               <td class='right taker-reject'>
-                <form action='manage.php' method='post'>
+                <form action='". $_ROUTER['delete_offer'] ."' method='post'>
                   <input type='hidden' name='choice' value='1'>"
                   .$key_info.">
-                  <button type='submit' class='btn-link'>Go</button>
+                  <button type='submit' class='btn-link'>Reject</button>
                 </form>
               </td>
             </tr>";
@@ -105,21 +96,17 @@
               <th class="pend-taker">Name</th>
               <th class="pend-start-date">Care start date</th>
               <th class="pend-end-date">Care end date</th>
-              <th class="pend-price">Price</th>
-              <th class="pend-location">Location</th>
               <th class="right"></th>
             </tr>
           </thead>
-          <tbody>'
-      $offers = getAcceptedOffersByTaker($_SESSION["user"]);
+          <tbody>';
+      $offers = getAcceptedOffersByTaker($_SESSION["email"]);
       for ($x = 0; $x < count($offers); $x++) {
         $p_name = $offers[$x]->p_name;
         $p_owner = $offers[$x]->p_owner;
         $t_email = $offers[$x]->t_email;
         $care_start_date = $offers[$x]->care_start_date;
         $care_end_date = $offers[$x]->care_end_date;
-        $price = $offers[$x]->price;
-        $p_location = $offers[$x]->p_location;
 
         echo "
           <tr>
@@ -127,8 +114,6 @@
             <td class='pend-taker'>".$p_owner."</td>
             <td class='pend-start-date'>".$care_start_date."</td>
             <td class='pend-end-date'>".$care_end_date."</td>
-            <td class='pend-price'>".$price."</td>
-            <td class='pend-location'>".$p_location."</td>
             <td class='btn-delete right'>Del</td>
           </td>
         ";
@@ -145,7 +130,7 @@
         <thead>
           <tr class="header-status">
             <th class="left top pet" colspan="3">Pet</th>
-            <th class="right top add" colspan="3">Add</th>
+            <th class="right top add" colspan="3"><a href="<?php echo $_ROUTER['add_pet']; ?>">Add</a></th>
           </tr>
           <tr>
             <th class="left name">Name</th>
@@ -156,7 +141,7 @@
 
         <tbody>
           <?php
-            $pets = getPetsByOwner($_SESSION["user"]);
+            $pets = getPetsWithOwner($_SESSION["email"]);
 
             for ($x = 0; $x < count($pets); $x++) {
               $name = $pets[$x]->name;
@@ -165,106 +150,35 @@
               $owner = $pets[$x]->owner;
               $key_info = "
                 <input type='hidden' name='name' value='".$name."'>
-                <input type='hidden' name='owner' value='".$owner."'";
+                <input type='hidden' name='owner' value='".$owner."'>";
               echo "
                 <tr>
                   <td class='left name'>".$name."</td>
                   <td class='type'>".$type."<td>
                   <td class='top description'>".$description."</td>
                   <td class='edit'>
-                    <form action='actionPet.php' method='post'>
+                    <form action=". $_ROUTER['edit_pet'] ." method='get'>
                       <input type='hidden' name='choice' value='0'>"
-                      .$key_info.">
-                      <button type='submit' class='btn-link'>Go</button>
+                      .$key_info."
+                      <button type='submit' class='btn-link'>Edit</button>
                     </form>
                   </td>
                   <td class='delete'>
-                    <form action='actionPet.php' method='post'>
-                      <input type='hidden' name='choice' value='1'>"
-                      .$key_info.">
-                      <button type='submit' class='btn-link'>Go</button>
+                    <form action='". $_ROUTER['delete_pet'] ."' method='post'>"
+                      .$key_info."
+                      <button type='submit' class='btn-link'>Delete</button>
                     </form>
                   </td>
                   <td class='make-offer right'>
-                    <form action='actionPet.php' method='post'>
-                      <input type='hidden' name='choice' value='2'"
-                      .$key_info.">
-                      <button type='submit' class='btn-link'>Go</button>
+                    <form action='search.php' method='post'>"
+                      .$key_info."
+                      <button type='submit' class='btn-link'>Make Offer</button>
                     </form>
                   </td>
                 </tr>
               ";
 
             }
-          /*
-          <tr>
-            <td class="left name">Mimi</td>
-            <td class="type">cat</td>
-            <td class="top description">Small</td>
-            <td class="edit"><a href="#">Edit</a></td>
-            <td class="delete"><a href="#">Delete</a></td>
-            <td class="make-offer right"><a href="#">Make offer</a></td>
-          </tr>
-          */
-          ?>
-        </tbody>
-      </table>
-    </section>
-
-    <div class="btn btn-offer">See Offer</div>
-
-    <section id="offer">
-      <section id="pend-offer">
-        <table>
-          <thead>
-            <tr class="header-status">
-              <th class="left top right"colspan="7">Pending Offer</th>
-            </tr>
-            <tr>
-              <th class="left pend-pet">Pet</th>
-              <th class="pend-taker">Taker</th>
-              <th class="pend-start-date">Care start date</th>
-              <th class="pend-end-date">Care end date</th>
-              <th class="pend-price">Price</th>
-              <th class="pend-location">Location</th>
-              <th class="right"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-              $offers = getPendingOffersByUser($_SESSION("user"));
-              for ($x = 0; $x < count($offers); $x++) {
-                $p_name = $offers[$x]->p_name;
-                $p_owner = $offers[$x]->p_owner;
-                $t_email = $offers[$x]->t_email;
-                $care_start_date = $offers[$x]->care_start_date;
-                $care_end_date = $offers[$x]->care_end_date;
-                $price = $offers[$x]->price;
-                $p_location = $offers[$x]->p_location;
-
-                echo "
-                  <tr>
-                    <td class='left pend-pet'>".$p_name."</td>
-                    <td class='pend-taker'>".$t_email."</td>
-                    <td class='pend-start-date'>".$care_start_date."</td>
-                    <td class='pend-end-date'>".$care_end_date."</td>
-                    <td class='pend-price'>".$price."</td>
-                    <td class='pend-location'>".$p_location."</td>
-                    <td class='btn-delete right'>Del</td>
-                  </td>
-                "
-              }
-            /*
-            <tr>
-              <td class="left pend-pet">Luffy</td>
-              <td class="pend-taker">Agus</td>
-              <td class="pend-start-date">03/11/2017</td>
-              <td class="pend-end-date">10/11/2017</td>
-              <td class="pend-price">10000</td>
-              <td class="pend-location">NUS</td>
-              <td class="btn-delete right"><a href="#">Del</a></td>
-            </tr>
-            */
             ?>
           </tbody>
         </table>
@@ -286,7 +200,7 @@
           </thead>
           <tbody>
             <?php
-              $offers = getAcceptedOffersByUser($_SESSION["user"]);
+              $offers = getAcceptedOffersByUser($_SESSION["email"]);
 
               for ($x = 0; $x < count($offers); $x++) {
                 $p_owner = $offers[$x]->p_owner;
@@ -304,8 +218,8 @@
                     <td class="acc-rating">
                     <form action="rateOffer.php" method="post">
                       <input type="hidden" name="p_owner" value="'.$p_owner.'">
-                      <input type="hidden" name="p_name" value="'.$p_name'">
-                      <input type="hidden" name="t_email" value="'.$t_email'">
+                      <input type="hidden" name="p_name" value="'.$p_name.'">
+                      <input type="hidden" name="t_email" value="'.$t_email.'">
                       <button class="rate" id="rate1" name="rate" value="1" type="submit" class="btn btn-link">1</button>
                       <button class="rate" id="rate2" name="rate" value="2" type="submit" class="btn btn-link">2</button>
                       <button class="rate" id="rate3" name="rate" value="3" type="submit" class="btn btn-link">3</button>
