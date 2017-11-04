@@ -24,7 +24,6 @@
         }
 
         function runQuery($query) {
-            echo $query;
             $queryResult = pg_query($this->dbConnection, $query);
 
             if (!$queryResult) {
