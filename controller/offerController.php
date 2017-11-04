@@ -4,8 +4,14 @@
     include_once __DIR__ . "/../model/acceptedOffer.php";
     include_once __DIR__ . "/../model/querySet.php";
 
+    function makeOffer($owner, $pname, $email, $offer_date, $start_date, $end_date,
+                       $price, $location, $notice) {
+        Offer::withProperties($owner, $pname, $email, $offer_date, $start_date, $end_date,
+                              $price, $location, $notice)->save();
+    }
+
     function getOfferByTaker($email, $limit = NULL) {
-        return Offer::findAll("t_email = $email", $limit);
+        return Offer::findAll("t_email = '$email'", $limit);
     }
 
     function getAcceptedOffersByTaker($t_email, $limit = NULL) {
