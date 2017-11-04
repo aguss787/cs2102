@@ -5,6 +5,10 @@
         return Pet::loadFromDb($owner, $name);
     }
 
+    function deletePet($owner, $name) {
+        getPet($owner, $name)->delete();
+    }
+
     function addPet($owner, $name, $type, $description, $prev_address,
                     $prev_contact_number) {
         $pet = Pet::withProperties(
