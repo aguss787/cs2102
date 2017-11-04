@@ -9,15 +9,21 @@
 ?>
 
 <?php
-  include_once __DIR__ . '/controller/userController.php';
+  include_once __DIR__ . '/controller/offerController.php';
 
   if (!$logged_in) {
     echo "Nope belom login";
     exit();
   }
 
-  upgradeToTaker($_SESSION['email']);
-  header('Location:./index.php');
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (strcmp($_SESSION['email'], $_POST['t_email']) != 0) {
+      echo "Nope bukan offer lu. jangan comot rejeki orang";
+      exit();
+    }
+    acceptOffer($_POST['p_name'], $_POST['p_owner'], $_POST['t_email']);
+    header('Location:./index.php');
+  }
 ?>
 
 <!DOCTYPE html>
@@ -41,27 +47,3 @@ get the f*ck out.
 </div>
 </body>
 </html>
-
-
-<?php
-    session_start();
-
-    include_once __DIR__ . '/controller/userController.php';
-
-    $loged_in = isset($_SESSION['email']);
-    if(!$loged_in) {
-        header('Location:./index.php');
-    }
-
-    echo "!";
-    echo $_SESSION['email'];
-    echo "!";
-
-    try{
-        upgradeToTaker($_SESSION['email']);
-    } catch (Exception $e) {
-        echo 'Caught exception!';
-    }
-
-    echo "YEY NOW YOU'RE A TAKER :)";
-?>

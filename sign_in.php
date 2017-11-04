@@ -10,7 +10,6 @@
 <?php
 	include_once __DIR__ . '/controller/userController.php';
 
-  //if ($_SERVER['REQUEST_METHOD'] === 'POST' && signIn($_POST['email'], $_POST['password'])) {}
 	if(signIn($_POST['email'],$_POST['password'])) {
 		header('Location:./mainpage.php');
 	}

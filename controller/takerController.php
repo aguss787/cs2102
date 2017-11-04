@@ -23,8 +23,8 @@
         $sumStar = '(one_star + 2 * two_star + 3 * three_star + 4 * four_star + 5 * five_star)';
         $totalRating = '(one_star + two_star + three_star + four_star + five_star)';
         $res = Taker::getQuerySet()->from("taker, users")
-                                   ->select(Taker::$fieldName)
-                                   ->filter('taker.email = user.email')
+                                   ->select()
+                                   ->filter('taker.email = users.email')
                                    ->filter("(users.first_name || ' ' || users.last_name) LIKE '%$name%'")
                                    ->filter("taker.preference LIKE '%$pref%'")
                                    ->filter("($sumStar / $totalRating) >= $rating")

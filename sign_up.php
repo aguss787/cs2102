@@ -1,7 +1,6 @@
 <?php
     session_start();
     $logged_in = isset($_SESSION['email']);
-
     if($logged_in) {
         header('Location:./mainpage.php');
     }
@@ -9,13 +8,13 @@
 
 <?php
     include_once __DIR__ . '/controller/userController.php';
-
+	
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        signUp($_POST['email'], $_POST['password'], $_POST['firstname'],
+        signUp($_POST['email'], $_POST['password'], $_POST['firstname'], 
                $_POST['lastname'], $_POST['address'], $_POST['contact'], false);
 		signIn($_POST['email'], $_POST['password']);
 		header('Location:./mainpage.php');
-    }
+    } 
 ?>
 
 <!DOCTYPE html>
