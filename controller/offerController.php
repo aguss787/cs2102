@@ -4,8 +4,9 @@
     include_once __DIR__ . "/../model/acceptedOffer.php";
     include_once __DIR__ . "/../model/querySet.php";
 
-    function makeOffer($owner, $pname, $email, $offer_date, $start_date, $end_date,
+    function makeOffer($owner, $pname, $email, $start_date, $end_date,
                        $price, $location, $notice) {
+        $offer_date = date("Y-m-d H:i:s");
         Offer::withProperties($owner, $pname, $email, $offer_date, $start_date, $end_date,
                               $price, $location, $notice)->save();
     }
