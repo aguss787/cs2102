@@ -136,7 +136,7 @@
         <thead>
           <tr class="header-status">
             <th class="left top pet" colspan="3">Pet</th>
-            <th class="right top add" colspan="3"><a href="add_pet.php">Add</a></th>
+            <th class="right top add" colspan="3"><a href="<?php echo $_ROUTER['add_pet']; ?>">Add</a></th>
           </tr>
           <tr>
             <th class="left name">Name</th>
@@ -170,7 +170,7 @@
                     </form>
                   </td>
                   <td class='delete'>
-                    <form action='actionPet.php' method='post'>
+                    <form action='". $_ROUTER['delete_pet'] ."' method='post'>
                       <input type='hidden' name='choice' value='1'>"
                       .$key_info.">
                       <button type='submit' class='btn-link'>Delete</button>
