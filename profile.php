@@ -108,29 +108,29 @@
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->five_star . '203</span>';
+		echo '<span>' . $taker->five_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->four_star .'423</span>';
+		echo '<span>' . $taker->four_star .'</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->three_star . '23</span>';
+		echo '<span>' . $taker->three_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->two_star . '12</span>';
+		echo '<span>' . $taker->two_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->one_star . '2</span>';
+		echo '<span>' . $taker->one_star . '</span>';
 	}
 ?>
 
