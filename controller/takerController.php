@@ -2,7 +2,7 @@
     include_once __DIR__ . "/../model/taker.php";
 
     function addTaker($email) {
-        $taker = Taker::withProperties($email);
+        $taker = Taker::withProperties($email, '', false, 0, 0, 0, 0, 0);
         $taker->save();
         return $taker;
     }

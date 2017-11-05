@@ -23,13 +23,14 @@
 		$taker = getTaker($_GET['email']);
 	}
 
-	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in && $_POST['email'] === $_SESSION['email']) {
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $logged_in && $_GET['email'] === $_SESSION['email']) {
 		editProfileUser($_SESSION['email'], $_POST['password'], $_POST['firstname'],
 			$_POST['lastname'], $_POST['address'], $_POST['contact']);
 		if ($istaker) {
 			editProfileTaker($_SESSION['email'], $_POST['preference']);
 		}
         $user = getCurrentUser();
+        $taker = getTaker($_GET['email']);
 	}
 ?>
 
@@ -56,6 +57,9 @@
 <h1>Profile</h1>
 
 <form action="profile.php" method="post">
+  <?php
+  echo '<input id="email" type="hidden" name="email" value="' . $user->email . '" disabled>';
+  ?>
   First name:<br>
   <?php
   echo '<input id="firstname" type="text" name="firstname" value="' . $user->first_name . '" disabled>';
@@ -108,29 +112,29 @@
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->five_star . '203</span>';
+		echo '<span>' . $taker->five_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->four_star .'423</span>';
+		echo '<span>' . $taker->four_star .'</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->three_star . '23</span>';
+		echo '<span>' . $taker->three_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->two_star . '12</span>';
+		echo '<span>' . $taker->two_star . '</span>';
 		echo '<br>';
 
 		echo '<span class="fa fa-star checked"></span>';
-		echo '<span>' . $taker->one_star . '2</span>';
+		echo '<span>' . $taker->one_star . '</span>';
 	}
 ?>
 
